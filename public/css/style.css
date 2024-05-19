@@ -1,0 +1,306 @@
+body {
+    font-size:15px;
+}
+
+#menu {
+    position: sticky;
+    top: 0;
+    z-index: 99;
+}
+
+.product-detail-size button:focus {
+    background-color: black;
+    color: white;
+}
+
+.scrollToTopBtn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #000000;
+    color: #fff;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    font-size: 20px;
+    border-radius: 50%;
+    z-index: 1000;
+    cursor: pointer;
+    transition: opacity 0.4s;
+    transition: 0.5s;
+}
+
+.zalo-me {
+    position: fixed;
+    bottom: 70px;
+    right: 18px;
+    z-index: 1000;
+    cursor: pointer;
+}
+
+.scrollToTopBtn:hover {
+    transition: 0.5s;
+    opacity: 80%;
+}
+
+/* ----------------- title tiêu chuẩn ----------------------- */
+
+/* <h2 class="fw-bold text-center fs-2 my-4 pt-5" style="margin-bottom: 0;">SẢN PHẨM MỚI</h2> */
+
+/*  --------------------- end title tiêu chuẩn -------------- */
+
+.action-user {
+    position: relative;
+}
+
+.subnav-user {
+    z-index: 999 !important;
+    width: 150px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 100%;
+    background-color: #fff;
+    padding: 10px;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.subnav-user ul {
+    margin-left: 0px;
+    padding-left: 0;
+}
+
+.subnav-user li {
+    text-align: left;
+    list-style: none;
+    padding: 5px 0px;
+}
+
+.subnav-user a {
+    text-decoration: none;
+    color: #000;
+}
+
+.action-user:hover .subnav-user {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/*  cart ------------ */
+.quantity-cart {
+    top: 3px;
+    left: 23px;;
+    border-radius: 50%;
+    color: rgb(255, 255, 255);
+    font-size: 13px;
+}
+
+.group-cart-user {
+    font-size: 15px;
+}
+
+.group-cart-user i {
+    font-size: 22px;
+}
+/* end cart --------- */
+
+.fa-bars {
+    font-size: 28px
+}
+
+.thumnail-home {
+    width: 100%;
+    overflow: hidden !important;
+}
+
+.thumnail-content {
+    padding: 10px 20px;
+    background-color: rgb(223, 222, 222);
+    display: flex;
+    justify-content: space-between;
+}
+
+.thumnail-content a {
+    text-decoration: none;
+    color: rgb(68, 68, 68) !important;
+}
+
+.thumnail-content span {
+    border-bottom: 1px solid black !important;
+}
+
+/* ======================= product ============================ */
+.product {
+    margin: 20px 0px;
+}
+.product-img {
+    position: relative;
+    overflow: hidden;
+}
+
+.product-img .over-lay {
+    position: absolute;
+    top: 0;
+    left: -100%; /* Ban đầu ẩn ngoài khung hình */
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Màu đen với độ trong suốt 50% */
+    transition: transform 0.3s ease; /* Hiệu ứng chuyển đổi */
+}
+
+.product-img:hover .over-lay {
+    transform: translateX(100%); /* Khi hover vào .product-img, hiển thị lớp overlay */
+}
+
+.over-lay button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px 20px;
+    background-color: #fff;
+    color: #000;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.over-lay button:hover {
+    background-color: #000;
+    color: #fff;
+}
+
+.product-name a {
+    text-decoration: none;
+    color: gray !important;
+    transform: 0.5s !important;
+}
+
+.product-name a:hover {
+    transform: 0.5s !important;
+    color: black !important;
+}
+
+.sale-title {
+    position: absolute;
+    background-color: red;
+    color: white;
+    top: 0;
+    padding: 5px 10px;
+    right: 0;
+    font-weight: bold;
+}
+
+.new-title {
+    position: absolute;
+    background-color: rgb(0, 0, 0);
+    color: white;
+    top: 0;
+    padding: 5px 10px;
+    left: 0;
+    font-weight: bold;
+}
+
+/* ====================== end product ========================= */
+
+/* --------------------- social icon --------------------------- */
+.group-social-item{
+    padding: 10px;
+    margin-bottom: 0px;
+    border-radius: 50%;
+}
+
+.social-link-group {
+    display: flex;
+}
+
+.social-link-group a {
+    text-decoration: none;
+}
+
+.social-link-group i {
+    color: white;
+    font-size: 20px;
+    transform: translateY(2px);
+}
+
+/* -------------------- end social icon ------------------------ */
+
+/*  --------------------- footer -------------------------------- */
+.footer a{
+    text-decoration: none;
+    color: gray;
+}
+
+.footer li:hover {
+    text-decoration: underline;
+}
+
+.footer li {
+    list-style: none;
+}
+
+.footer ul {
+    padding-left: 0;
+    margin-left: 0;
+}
+/* -------------------- end footer -------------------------------- */
+
+/* -------------------product page ---------------------------------- */
+.list-unstyled li {
+    transition: 0.5s;
+}
+
+.list-unstyled li:hover{
+    transform: translateX(10px);
+    transition: 0.5s;
+}
+/* ------------------ end product page -------------------------------- */
+
+/* --------------------------- root payment ----------------------------- */
+
+.dotted-line {
+    border-left: 2px dotted #999999; /* Thiết lập kiểu và màu sắc của đường viền */
+    height: 50px; /* Điều chỉnh chiều cao của đường viền */
+    margin: 0 10px; /* Khoảng cách giữa các phần tử */
+}
+
+.root-cart i {
+    font-size: 30px;
+}
+/* ======================================================================== */
+
+@media only screen and (max-width: 900px) and (min-width: 550px) {
+    .root-process-payment span{
+        font-size: 13px;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .root-process-payment span{
+        font-size: 11px;
+    }
+
+    .root-cart i {
+        font-size: 20px;
+    }
+}
+
+.delete-product-in_cart a {
+    transition: 0.5s;
+}
+
+.delete-product-in_cart a:hover {
+    color: red;
+    transition: 0.5s;
+}
