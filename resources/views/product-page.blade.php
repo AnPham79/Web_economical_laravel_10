@@ -4,7 +4,7 @@
     <main>
         <!-- ------------------------------------- banner product page -------------------------------------------------- -->
         <div class="banner-product-page">
-            <img src="{{ asset('img/banner-product-page.jpg') }}" class="w-100" alt>
+            <img src="{{ asset('img/banner-product-page') }}" class="w-100" alt>
         </div>
         <!-- -------------------------------------- end banner product page ---------------------------------------------- -->
 
@@ -51,36 +51,36 @@
                                 </h2>
                             </div>
                             <div class="col-md-12 col-sm-12">
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-12 col-sm-12 mt-3">
-                                        <form class="d-flex" role="search" id="searchByForm">
-                                            <input name="q" id="search"
-                                                class="form-control typeahead border border-secondary-subtle rounded-0"
-                                                type="search" placeholder="Nhập tìm kiếm của bạn ..." aria-label="Search"
-                                                value="{{ $search ?? '' }}">
-                                        </form>                                        
+                                <form action="" method="GET">
+                                    <div class="row mt-3">
+                                        <div class="col-md-6">
+                                            <input type="text" name="search" value="{{ request('search') }}" 
+                                            placeholder="Nhập tìm kiếm của bạn" class="w-100 form-control border border-secondary-subtle rounded-0">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <select name="product_sale_status" class="w-100 form-control border border-secondary-subtle rounded-0">
+                                                <option value="" {{ request('product_sale_status') === null ? 'selected' : '' }}>Tất cả sản phẩm</option>
+                                                <option value="on_sale" {{ request('product_sale_status') === 'on_sale' ? 'selected' : '' }}>Sản phẩm sale</option>
+                                                <option value="none_sale" {{ request('product_sale_status') === 'none_sale' ? 'selected' : '' }}>Sản phẩm không sale</option>
+                                            </select>                                            
+                                        </div>
+                                        <div class="col-md-12 mt-2">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <input type="text" value="{{ request('min_regular_price') }}" name="min_regular_price" class="w-100 form-control border border-secondary-subtle rounded-0"
+                                                    placeholder="Nhập giá trị thấp nhất">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <input type="text" value="{{ request('max_regular_price') }}" name="max_regular_price" class="w-100 form-control border border-secondary-subtle rounded-0"
+                                                    placeholder="Nhập giá trị cao nhất">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 mt-2">
+                                            <button class="btn btn-dark rounded-0 w-100" type="submit">Lọc</button>
+                                        </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-12 col-sm-12">
-                                        <form id="orderByForm" method="GET">
-                                            <select id="orderBySelect"
-                                                class="form-select border border-secondary-subtle rounded-0 mt-3 float-end"
-                                                name="orderBy" onchange="this.form.submit()">
-                                                <option value="product-page" {{ $orderBy == '' }}> 
-                                                    -- Tất cả --
-                                                </option>
-                                                <option value="price_asc" {{ $orderBy == 'price_asc' ? 'selected' : '' }}>
-                                                    -- Giá tăng dần --
-                                                </option>
-                                                <option value="price_desc" {{ $orderBy == 'price_desc' ? 'selected' : '' }}>
-                                                    -- Giá giảm dần --
-                                                </option>
-                                                <option value="price_sale" {{ $orderBy == 'price_sale' ? 'selected' : '' }}>
-                                                    -- Sale --
-                                                </option>
-                                            </select>
-                                        </form>
-                                    </div>
-                                </div>
+                                </form>
                             </div>
                         </div>
                         <div class="section mt-5">
@@ -90,7 +90,7 @@
                                         <div class="col-lg-3 col-md-4">
                                             <div class="product">
                                                 <div class="product-img">
-                                                    <img src="{{ asset('img/product') }}/{{ $product->product_image }}.jpg"
+                                                    <img src="{{ asset('img/product') }}/{{ $product->product_image }}"
                                                         class="w-100" alt>
                                                     <a
                                                         href="{{ route('product-detail', ['slug' => $product->product_slug_name]) }}">
@@ -143,31 +143,5 @@
         </div>
         <!-- -------------------------- end nội dung danh mục -------------------------------------------------- -->
     </main>
-    {{-- <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js" integrity="sha512-2rNj2KJ+D8s1ceNasTIex6z4HWyOnEYLVC3FigGOmyQCZc2eBXKgOxQmo3oKLHyfcj53uz4QMsRCWNbLd32Q1g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
-    <script>
-        document.getElementById('orderBySelect').addEventListener('change', function() {
-            var selectedValue = this.value;
-            var currentUrl = window.location.href;
-            var baseUrl = currentUrl.split('?')[0];
-            var newUrl = baseUrl + '?orderBy=' + selectedValue;
-            window.history.pushState({path: newUrl}, '', newUrl);
-            window.location.reload();
-        });
-        // $document.ready(function() {
-        //     $('#search').on('keyup', function() {
-        //         var query = $this.val();
-        //         $.ajax({
-        //             url: "search",
-        //             method: 'GET',
-        //             data: {'search': query},
-        //             success: function(data) {
-        //                 $('#search_list').html(data);
-        //             }
-        //         })
-        //     })
-        // })
-
-    </script>
     
 @endsection

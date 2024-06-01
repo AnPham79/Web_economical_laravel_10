@@ -18,7 +18,7 @@
         <ul class="navbar-nav">
 
             <li class="nav-item">
-                <a class="nav-link text-white " href="">
+                <a class="nav-link text-white " href="{{ route('product.product-manager') }}">
 
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="fa-brands fa-product-hunt fs-5"></i>
@@ -29,7 +29,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link text-white " href="">
+                <a class="nav-link text-white " href="{{ route('category.category-manager') }}">
 
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="fa-solid fa-list fs-5"></i>
@@ -83,18 +83,30 @@
                 </a>
             </li>
 
-            <li class="nav-item mt-3">
-                <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account pages</h6>
+            <li class="nav-item">
+                <a class="nav-link text-white " href="{{ route('size.product-manager.index') }}">
+
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="fa-solid fa-font fs-5"></i>
+                    </div>
+
+                    <span class="nav-link-text ms-1">Quản lí size</span>
+                </a>
             </li>
 
             <li class="nav-item">
-                <div class="nav-link text-white">
+                <a class="nav-link text-white " href="">
+
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">person</i>
+                        <i class="fa-solid fa-image fs-5"></i>
                     </div>
 
-                    <span class="nav-link-text ms-1">{{ session()->get('name') }}</span>
-                </div>
+                    <span class="nav-link-text ms-1">Quản lí banner</span>
+                </a>
+            </li>
+
+            <li class="nav-item mt-3">
+                <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account pages</h6>
             </li>
 
 
@@ -110,18 +122,6 @@
             </li>
 
         </ul>
-    </div>
-
-    <div class="sidenav-footer position-absolute w-100 bottom-0 ">
-        <div class="mx-3">
-            <a class="btn btn-outline-primary mt-4 w-100"
-                href="https://www.creative-tim.com/learning-lab/bootstrap/overview/material-dashboard?ref=sidebarfree"
-                type="button">Documentation</a>
-            <a class="btn bg-gradient-primary w-100"
-                href="https://www.creative-tim.com/product/material-dashboard-pro?ref=sidebarfree" type="button">Upgrade
-                to
-                pro</a>
-        </div>
     </div>
 
 </aside>

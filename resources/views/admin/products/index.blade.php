@@ -22,8 +22,7 @@
                                         <h2 class="fw-bold">{{ $title }}</h2>
                                     </div>
                                     <div class="col-md-6 float-end">
-                                        <a href="" class="btn btn-success float-end mx-1">Add
-                                            new
+                                        <a href="{{ route('product.create-product') }}" class="btn btn-success float-end mx-1">Thêm mới
                                         </a>
                                         <form action="" method="POST">
                                             @csrf
@@ -57,7 +56,7 @@
 
                         <div class="panel-body">
                             @if (session()->has('message'))
-                                <div class="alert alert-success" role="alert">
+                                <div class="alert alert-success text-white" role="alert">
                                     {{ session()->get('message') }}
                                 </div>
                             @endif
@@ -82,30 +81,9 @@
                                             <td>{{ $product->id }}</td>
                                             {{-- style="text-decoration: underline; "  --}}
                                             <td>
-                                                <a value="{{ $modal ?? '' }}" style="text-decoration: underline; cursor: pointer;" href="" 
-                                                data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                                    {{ $product->product_name }}
-                                                </a>
+                                                <p>{{ $product->product_name }}</p>
                                             </td>
-                                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                  <div class="modal-content">
-                                                    <div class="modal-header">
-                                                      <h1 class="modal-title fs-5" id="exampleModalLabel">Thông tin sản phẩm</h1>
-                                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <p><b>Mô tả sản phẩm: </b>{{ $product->product_description }}</p>
-                                                        <p><b>Mã SKU:</b> {{ $product->product_SKU }}</p>
-                                                        <p><b>Ngày tạo: </b>{{ $product->created_at }}</p>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                            </div>
-                                            <td><img src="{{ asset('img/product') }}/{{ $product->product_image }}.jpg" alt="" style="height:100px"></td>
+                                            <td><img src="{{ asset('img/product') }}/{{ $product->product_image }}" alt="" style="height:100px"></td>
                                             <td>{{ $product->product_short_description }}</td>
                                             <td>{{ number_format($product->product_regular_price) }}đ</td>
                                             <td>{{ number_format($product->product_percent_sale) }}%</td>
@@ -116,11 +94,14 @@
                                                 <td>Hết hàng</td>
                                             @endif
                                             <td>{{ $product->category->category_name }}</td>
-                                            <td class="d-flex justify-content-center">
-                                                <a href=""><i class="fa-solid fa-pen-to-square text-info"></i></i></a>
-                                                <form action="" method="POST">
+                                            <td id="deleteForm" class="d-flex justify-content-center">
+                                                <a href="{{ route('product.edit-product', ['slug' => $product->product_slug_name]) }}"><i class="fa-solid fa-pen-to-square text-info"></i></i></a>
+
+                                                <button class="border-0 bg-light mx-1" onclick="confirmDelete({{ $product->id }})"><i class="fa-solid fa-trash text-danger"></i></button>
+                                               
+                                                <form action="{{ route('product.delete-product', ['slug' => $product->product_slug_name]) }}" method="POST" id="delete-product{{ $product->id }}">
                                                     @csrf
-                                                    <button class="border-0 bg-light mx-1"><a href=""><i class="fa-solid fa-trash text-danger"></i></a></button>
+                                                    @method('DELETE')
                                                 </form>
                                             </td>
                                         </tr>
@@ -134,4 +115,14 @@
             </div>
         </div>
     </main>
+    <script>
+        function confirmDelete(id) {
+            var result = confirm('Bạn có muốn xóa sản phẩm này không')
+
+            if(result == true)
+            {
+                document.getElementById('delete-product'+id).submit();
+            }
+        }
+    </script>
 @endsection

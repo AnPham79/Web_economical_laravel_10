@@ -15,15 +15,12 @@
             <div class="row mt-5">
                 <div class="col-lg-2 d-none d-md-block">
                     <div class="row">
-                        <div class="col-md-12">
-                            <img src="{{ asset('img/product') }}/{{ $data->product_image }}.jpg" class="d-block w-100" alt="{{ $data->product_name }}">
-                        </div>
-                        <div class="col-md-12">
-                            <img src="{{ asset('img/product') }}/{{ $data->product_image }}.jpg" class="d-block w-100" alt="{{ $data->product_name }}">
-                        </div>
-                        <div class="col-md-12">
-                            <img src="{{ asset('img/product') }}/{{ $data->product_image }}.jpg" class="d-block w-100" alt="{{ $data->product_name }}">
-                        </div>
+                        <img src="{{ asset('img/product') }}/{{ $data->product_image }}" class="d-block w-100" alt="{{ $data->product_name }}">
+                        @if ($data->product_images)
+                            @foreach(json_decode($data->product_images, true) as $image)
+                                <img src="{{ asset('img/thumbnail') }}/{{ $image }}" class="d-block w-100" alt="{{ $data->product_name }}">
+                            @endforeach
+                        @endif
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-12 col-sm-12">
@@ -31,14 +28,15 @@
                     <div class="carousel slide" id="carouselExampleAutoplaying" data-bs-ride="carousel">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
-                                <img src="{{ asset('img/product') }}/{{ $data->product_image }}.jpg" class="d-block w-100" alt="{{ $data->product_name }}">
+                                <img src="{{ asset('img/product') }}/{{ $data->product_image }}" class="d-block w-100" alt="{{ $data->product_name }}">
                             </div>
-                            <div class="carousel-item">
-                                <img src="{{ asset('img/product') }}/{{ $data->product_image }}.jpg" class="d-block w-100" alt="{{ $data->product_name }}">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="{{ asset('img/product') }}/{{ $data->product_image }}.jpg" class="d-block w-100" alt="{{ $data->product_name }}">
-                            </div>
+                            @if($data->product_images)
+                                @foreach(json_decode($data->product_images, true) as $image)
+                                    <div class="carousel-item">
+                                        <img src="{{ asset('img/thumbnail') }}/{{ $image }}" class="d-block w-100" alt="{{ $data->product_name }}">
+                                    </div>
+                                @endforeach
+                            @endif
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying"
                             data-bs-slide="prev">
@@ -266,7 +264,7 @@
                                 <div class="col-lg-3 col-md-4">
                                     <div class="product">
                                         <div class="product-img">
-                                            <img src="{{ asset('img/product') }}/{{ $product->product_image }}.jpg" class="w-100" alt>
+                                            <img src="{{ asset('img/product') }}/{{ $product->product_image }}" class="w-100" alt>
                                             <a href="{{ route('product-detail', ['slug' => $product->product_slug_name]) }}">
                                                 <div class="over-lay">
                                                     <button>Xem thêm</button>

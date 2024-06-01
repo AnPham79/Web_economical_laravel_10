@@ -10,42 +10,21 @@ use Illuminate\Support\Facades\DB;
 
 class ProductPageController extends Controller
 {
+
     public function index(Request $request)
     {
-        $search = $request->get('q', '');
+        $filter = $request->only([
+            'search',
+            'min_regular_price',
+            'max_regular_price',
+            'product_sale_status'
+        ]);
 
         $categories = Category::all();
 
-        $productsQuery = Product::query();
-
-        if (!empty($search)) {
-            $productsQuery->where('product_name', 'like', '%' . $search . '%');
-        }
-
-        $orderBy = $request->get('orderBy');
-
-        switch ($orderBy) {
-            case 'price_asc':
-                $productsQuery->orderBy('product_regular_price', 'asc');
-                break;
-            case 'price_desc':
-                $productsQuery->orderBy('product_regular_price', 'desc');
-                break;
-            case 'price_sale':
-                $productsQuery->where('product_percent_sale', '>', 0)
-                    ->orderBy('product_percent_sale', 'desc');
-                break;
-            default:
-                break;
-        }
-
-        $products = $productsQuery->paginate(12);
-
         return view('product-page', [
-            'products' => $products,
+            'products' => Product::filter($filter)->paginate(12),
             'categories' => $categories,
-            'orderBy' => $orderBy,
-            'search' => $search,
         ]);
     }
 
@@ -65,14 +44,34 @@ class ProductPageController extends Controller
         ]);
     }
 
-    public function pageProductSale()
+    public function pageProductSale(Request $request)
     {
-        $products = Product::where('product_percent_sale' , '>' , '0')->get();
+        $filter = $request->only([
+            'search',
+            'min_regular_price',
+            'max_regular_price'
+        ]);
 
         $categories = Category::all();
 
+        $products = Product::where('product_percent_sale', '>', 0);
+
+        if (isset($filter['search'])) {
+            $products->where('product_name', 'like', '%' . $filter['search'] . '%');
+        }
+
+        if (isset($filter['min_regular_price'])) {
+            $products->where('product_regular_price', '>=', $filter['min_regular_price']);
+        }
+
+        if (isset($filter['max_regular_price'])) {
+            $products->where('product_regular_price', '<=', $filter['max_regular_price']);
+        }
+
+        $filteredProducts = $products->get();
+
         return view('product-sale-page', [
-            'products' => $products,
+            'products' => $filteredProducts,
             'categories' => $categories
         ]);
     }
@@ -83,13 +82,11 @@ class ProductPageController extends Controller
 
         $category = Category::where('category_slug_name', $slug)->firstOrFail();
 
-        $products = Product::where('category_id', $category->id)
-            ->where('product_percent_sale' , '>' , '0')
-            ->get();
+        $products = Product::where('category_id', $category->id)->where('product_percent_sale', '>', '0')->get();
 
         return view('product-sale-page', [
             'products' => $products,
-            'categories' => $categories
+            'categories' => $categories,
         ]);
     }
 }

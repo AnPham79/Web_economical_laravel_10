@@ -10,6 +10,10 @@ use App\Http\Controllers\AuthController;
 
 use App\Http\Controllers\ProductController;
 
+use App\Http\Controllers\SizeProductController;
+
+use App\Http\Controllers\CategoryController;
+
 use App\Http\Controllers\TestController;
 
 /*
@@ -73,8 +77,39 @@ Route::middleware(['checkLogin'])->group(function () {
 
 Route::middleware(['AdminCheck'])->group(function () {
     Route::group(['prefix' => 'product', 'as' => 'product.'], function () {
-        Route::get('/product-manager', [ProductController::class, 'index'])->name('product-mangager');
+        Route::get('/product-manager', [ProductController::class, 'index'])->name('product-manager');
+
+        Route::get('/create-product', [ProductController::class, 'create'])->name('create-product');
+
+        Route::post('/store-product', [ProductController::class, 'store'])->name('store-product');
+
+        Route::get('/edit-product/{slug}', [ProductController::class, 'edit'])->name('edit-product');
+
+        Route::put('/update-product/{slug}', [ProductController::class, 'update'])->name('update-product');
+
+        Route::delete('/delete-product/{slug}', [ProductController::class, 'destroy'])->name('delete-product');
     });
+
+    Route::prefix('size')->group(function () {
+        Route::get('/product-manager', [SizeProductController::class, 'index'])->name('size.product-manager.index');
+
+        Route::get('/create-product', [SizeProductController::class, 'create'])->name('size.product-manager.create');
+
+        Route::post('/store-product', [SizeProductController::class, 'store'])->name('size.product-manager.store');
+
+        Route::get('/edit-product/{id}', [SizeProductController::class, 'edit'])->name('size.product-manager.edit');
+
+        Route::put('/update-product/{id}', [SizeProductController::class, 'update'])->name('size.product-manager.update');
+
+        Route::delete('/delete-product/{id}', [SizeProductController::class, 'destroy'])->name('size.product-manager.destroy');
+    });
+
+    Route::get('/category-manager', [CategoryController::class, 'index'])->name('category.category-manager');
+    Route::get('/create-category', [CategoryController::class, 'create'])->name('category.category-create');
+    Route::post('/store-category', [CategoryController::class, 'store'])->name('category.category-store');
+    Route::get('/edit-category/{category_slug_name}', [CategoryController::class, 'edit'])->name('category.category-edit');
+    Route::put('/update-category/{category_slug_name}', [CategoryController::class, 'update'])->name('category.category-update');
+    Route::delete('/destroy-category/{category_slug_name}', [CategoryController::class, 'destroy'])->name('category.category-destroy');
 });
 
 

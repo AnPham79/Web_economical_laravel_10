@@ -4,7 +4,7 @@
     <main>
         <!-- ------------------------------------- banner product page -------------------------------------------------- -->
         <div class="banner-product-page">
-            <img src="{{ asset('img/banner-product-page.jpg') }}" class="w-100" alt>
+            <img src="{{ asset('img/banner-product-page') }}" class="w-100" alt>
         </div>
         <!-- -------------------------------------- end banner product page ---------------------------------------------- -->
 
@@ -15,7 +15,7 @@
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ route('index') }}">Trang chủ</a></li>
                         <li class="breadcrumb-item">
-                            Tất cả sản phẩm giảm giá
+                            Tất cả sản phẩm
                         </li>
                     </ol>
                 </nav>
@@ -47,8 +47,33 @@
                         <div class="row">
                             <div class="col-md-6 col-sm-12">
                                 <h2 class="fs-5 fw-bold" style="margin-bottom: 0;">TẤT CẢ SẢN
-                                    PHẨM GIẢM GIÁ
+                                    PHẨM
                                 </h2>
+                            </div>
+                            <div class="col-md-12 col-sm-12">
+                                <form action="" method="GET">
+                                    <div class="row mt-3">
+                                        <div class="col-md-6">
+                                            <input type="text" name="search" value="{{ request('search') }}" 
+                                            placeholder="Nhập tìm kiếm của bạn" class="w-100 form-control border border-secondary-subtle rounded-0">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <input type="text" value="{{ request('min_regular_price') }}" name="min_regular_price" class="w-100 form-control border border-secondary-subtle rounded-0"
+                                                    placeholder="Nhập giá trị thấp nhất">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <input type="text" value="{{ request('max_regular_price') }}" name="max_regular_price" class="w-100 form-control border border-secondary-subtle rounded-0"
+                                                    placeholder="Nhập giá trị cao nhất">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 mt-3">
+                                            <button class="btn btn-dark rounded-0 w-100" type="submit">Lọc</button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                         <div class="section mt-5">
@@ -58,7 +83,7 @@
                                         <div class="col-lg-3 col-md-4">
                                             <div class="product">
                                                 <div class="product-img">
-                                                    <img src="{{ asset('img/product') }}/{{ $product->product_image }}.jpg"
+                                                    <img src="{{ asset('img/product') }}/{{ $product->product_image }}"
                                                         class="w-100" alt>
                                                     <a
                                                         href="{{ route('product-detail', ['slug' => $product->product_slug_name]) }}">
@@ -100,37 +125,13 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- ------------------------ phân trang ----------------------------------------- -->
                     <!-- --------------------------- kết thúc phân trang -------------------------------  -->
                 </div>
             </div>
         </div>
         <!-- -------------------------- end nội dung danh mục -------------------------------------------------- -->
     </main>
-    {{-- <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js" integrity="sha512-2rNj2KJ+D8s1ceNasTIex6z4HWyOnEYLVC3FigGOmyQCZc2eBXKgOxQmo3oKLHyfcj53uz4QMsRCWNbLd32Q1g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
-    <script>
-        document.getElementById('orderBySelect').addEventListener('change', function() {
-            var selectedValue = this.value;
-            var currentUrl = window.location.href;
-            var baseUrl = currentUrl.split('?')[0];
-            var newUrl = baseUrl + '?orderBy=' + selectedValue;
-            window.history.pushState({path: newUrl}, '', newUrl);
-            window.location.reload();
-        });
-        // $document.ready(function() {
-        //     $('#search').on('keyup', function() {
-        //         var query = $this.val();
-        //         $.ajax({
-        //             url: "search",
-        //             method: 'GET',
-        //             data: {'search': query},
-        //             success: function(data) {
-        //                 $('#search_list').html(data);
-        //             }
-        //         })
-        //     })
-        // })
-
-    </script>
     
 @endsection

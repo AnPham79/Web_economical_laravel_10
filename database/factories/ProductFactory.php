@@ -29,7 +29,7 @@ class ProductFactory extends Factory
             'product_SKU' => $this->faker->word($nb=1, $astext=true),
             'stock_status' => 'in_stock',
             'product_quantity' => 10,
-            'product_image' => 'product-' . $this->faker->unique()->numberBetween(1, 28),
+            'product_image' => 'product-' . $this->faker->unique()->numberBetween(1, 28) . '.jpg',
             'category_id' => $this->faker->numberBetween(1, 10)
         ];
     }

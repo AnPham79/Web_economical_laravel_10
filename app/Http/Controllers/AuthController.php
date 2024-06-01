@@ -69,7 +69,7 @@ class AuthController extends Controller
 
 
         if ($role == 0) {
-            return redirect()->route('product.product-mangager');
+            return redirect()->route('product.product-manager');
         } else {
             return redirect()->route('index');
         }

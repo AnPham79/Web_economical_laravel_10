@@ -15,7 +15,7 @@
 </head>
 
 <body ng-controller="MyController">
-    <a href="" class="zalo-me"><img src="{{ asset('img/linhtinh/zalo.png') }}" style="height: 50px;"
+    <a href="https://id.zalo.me/account?continue=https://chat.zalo.me" class="zalo-me"><img src="{{ asset('img/linhtinh/zalo.png') }}" style="height: 50px;"
             alt=""></a>
     <a href="#" class="scrollToTopBtn"><i class="fa-solid fa-arrow-up"></i></a>
     <div class="container">
@@ -49,19 +49,25 @@
                         <div class="subnav subnav-user">
                             <ul>
                                 <li>
-                                    <i class='bx bx-chevron-right' style="transform: translateY(1px);"></i>
+                                    <i class='bx bx-chevron-right' style="transform: translateY(5px);"></i>
                                     <a href="#" style="font-size:13px;">Đơn hàng</a>
                                 </li>
                                 <li>
-                                    <i class='bx bx-chevron-right' style="transform: translateY(1px);"></i>
+                                    <i class='bx bx-chevron-right' style="transform: translateY(5px);"></i>
                                     <a href="#" style="font-size:13px;">Lịch sử mua hàng</a>
                                 </li>
                                 <li>
-                                    <i class='bx bx-chevron-right' style="transform: translateY(1px);"></i>
+                                    <i class='bx bx-chevron-right' style="transform: translateY(5px);"></i>
                                     <a href="#" style="font-size:13px;">Cài đặt tài khoản</a>
                                 </li>
+                                @if(session()->get('role') == 0)
+                                    <li>
+                                        <i class='bx bx-chevron-right' style="transform: translateY(5px);"></i>
+                                        <a href="#" style="font-size:13px;">Vào trang quản lí</a>
+                                    </li>
+                                @endif
                                 <li>
-                                    <i class='bx bx-chevron-right' style="transform: translateY(1px);"></i>
+                                    <i class='bx bx-chevron-right' style="transform: translateY(5px);"></i>
                                     <a href="{{ route('logout') }}" style="font-size:13px;">Đăng xuất</a>
                                 </li>
                             </ul>
