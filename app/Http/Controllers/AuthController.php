@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 use App\Models\User;
 
 use App\Http\Requests\StoreEmployeeRequest;
-
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UserRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 use Illuminate\Support\Facades\DB;
-
-use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
@@ -23,103 +22,70 @@ class AuthController extends Controller
 
     public function register()
     {
-        // $registerData = session('register_data');
-        // if ($registerData) {
-        //     return view('auth.register', ['name' => $registerData['name'], 'email' => $registerData['email'], 'avatar' => $registerData['avatar']]);
-        // }
-
         return view('Auth.register');
     }
 
-    public function handleLogin(Request $request)
+    public function handleLogin(UserRequest $request)
     {
-        $message = [
-            'email.required' => 'Bạn chưa nhập email',
-            'email.email' => 'Email của bạn không đúng định dạng',
-            'password.required' => 'Bạn chưa nhập mật khẩu'
-        ];
+        $credentials = $request->only('email', 'password');
 
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ], $message);
-
-        $email = $request->email;
-        $password = $request->password;
-
-        $user = User::where('email', $email)->first();
-
-        if (!$user) {
-            session()->flash('messages', 'Email của bạn không tồn tại');
-
-            return redirect()->back();
+        if (!Auth::attempt($credentials)) {
+            return redirect()->back()->withErrors(['messages' => 'Email hoặc mật khẩu của bạn không đúng']);
         }
 
-        if (!Hash::check($password, $user->password)) {
-            session()->flash('messages', 'Mật khẩu của bạn không đúng');
-
-            return redirect()->back();
-        }
-
-        $role = (int)$user->role;
-
-        session()->put('name', $user->name);
-        session()->put('email', $user->email);
-        session()->put('role', $role);
-
-
-        if ($role == 0) {
+        if (Auth::user()->role == 0) {
             return redirect()->route('product.product-manager');
         } else {
             return redirect()->route('index');
         }
+
     }
 
-
-    public function handleRegister(Request $request)
+    public function handleRegister(StoreUserRequest $request)
     {
-        $messages = [
-            'name.required' => 'Tên phải nhập',
-            'email.required' => 'Email là bắt buộc',
-            'email.email' => 'Email phải đúng định dạng',
-            'email.unique' => 'Email này đã được sử dụng',
-            'password.required' => 'Mật khẩu là bắt buộc',
-            'password.min' => 'Mật khẩu phải có ít nhất 7 ký tự',
-            'gender.required' => 'Vui lòng chọn giới tính',
-        ];
-
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email',
-            'gender' => 'required',
-            'password' => 'required|string|min:7',
-        ], $messages);
-
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
-
         $data = new User;
         $data->fill($request->except('_token'));
         $data->password = Hash::make($request->password);
         $data->save();
-
-        if(session()->has('register_data'))
-        {
-            session()->forget('register_data');
-        }
         
         return redirect()->route('login');
     }
 
+    public function changePassword()
+    {
+        return view('auth.change-password');
+    }
+
+    // ----------------------------------------------------------------
+
+    public function processChangePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|min:8|confirmed',
+        ]);
+
+        $user = Auth::user();
+
+        if (!Hash::check($request->current_password, $user->password)) {
+            return back()->with(['message' => 'Mật khẩu hiện tại của bạn không đúng']);
+        }
+
+        DB::table('users')
+            ->where('id', $user->id)
+            ->update(['password' => Hash::make($request->new_password)]);
+
+        return redirect()->route('change-password')->with('message', 'Đổi mật khẩu thành công');
+    }
+
     public function logout()
     {
-        session()->forget('name');
-        session()->forget('email');
-        session()->forget('role');
+        Auth::logout();
 
-        return redirect()->route('index');
+        request()->session()->invalidate();
+
+        request()->session()->regenerateToken();
+
+        return redirect('/');
     }
 }

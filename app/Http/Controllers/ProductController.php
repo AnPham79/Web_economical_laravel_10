@@ -31,11 +31,6 @@ class ProductController extends Controller
 
     private $table = 'products';
 
-    public function __construct(ProductService $productService)
-    {
-        $this->productService = $productService;
-    }
-
     public function index()
     {
         $product = Product::all();

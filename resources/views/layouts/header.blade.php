@@ -43,9 +43,10 @@
                     </div>
                 </div>
 
-                @if(session()->has('role'))
+
+                @if(Auth::check())
                     <div class="nav-item action-user mx-2">
-                        <span style="cursor: pointer;">Hi: {{ session()->get('name') }}</span>
+                        <span style="cursor: pointer;">Hi: {{ Auth::user()->name }}</span>
                         <div class="subnav subnav-user">
                             <ul>
                                 <li>
@@ -60,10 +61,14 @@
                                     <i class='bx bx-chevron-right' style="transform: translateY(5px);"></i>
                                     <a href="#" style="font-size:13px;">Cài đặt tài khoản</a>
                                 </li>
-                                @if(session()->get('role') == 0)
+                                <li>
+                                    <i class='bx bx-chevron-right' style="transform: translateY(5px);"></i>
+                                    <a href="{{ route('change-password') }}" style="font-size:13px;">Đổi mật khẩu</a>
+                                </li>
+                                @if(Auth::user()->role == 0)
                                     <li>
                                         <i class='bx bx-chevron-right' style="transform: translateY(5px);"></i>
-                                        <a href="#" style="font-size:13px;">Vào trang quản lí</a>
+                                        <a href="{{ route('product.product-manager') }}" style="font-size:13px;">Vào trang quản lí</a>
                                     </li>
                                 @endif
                                 <li>

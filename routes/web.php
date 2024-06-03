@@ -14,8 +14,6 @@ use App\Http\Controllers\SizeProductController;
 
 use App\Http\Controllers\CategoryController;
 
-use App\Http\Controllers\TestController;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -64,6 +62,9 @@ Route::get('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/handle-register', [AuthController::class, 'handleRegister'])->name('handle-register');
 
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::get('/change-password', [AuthController::class, 'changePassword'])->name('change-password');
+Route::put('/process-change-password', [AuthController::class, 'processChangePassword'])->name('process-change-password');
 
 // ------------------------------------------------------------------------------------------------------------------------------------
 

@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class AdminMiddleware
@@ -16,9 +17,9 @@ class AdminMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         // Kiểm tra xem session 'role' có tồn tại và có giá trị bằng 0 hay không
-        if(session()->has('role') && session()->get('role') == 0)
+        if(Auth::user()->role == 0)
         {
-            return $next($request); // Nếu có, tiếp tục xử lý request
+            return $next($request);
         }
 
         return redirect()->route('index');

@@ -79,7 +79,7 @@
                                 <form role="form" method="POST" action="{{ route('handle-login') }}" class="text-start">
                                     @csrf
                                     <div class="input-group input-group-outline my-3">
-                                        <input type="email" class="form-control" name="email" placeholder="Your email" value="{{ old('name') }}">
+                                        <input type="email" class="form-control" name="email" placeholder="Your email" value="{{ request('name') }}">
                                     </div>
                                     <div class="input-group input-group-outline mb-3">
                                         <input type="password" class="form-control" name="password" placeholder="*********">
