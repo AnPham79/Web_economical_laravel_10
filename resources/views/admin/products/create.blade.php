@@ -118,9 +118,9 @@
                         <div class="form-group row my-2">
                             <label for="product_images" class="col-md-4 control-label fw-bold">Ảnh sản phẩm con</label>
                             <div class="col-md-8">
-                                <input type="file" id="thumbnails_product" name="thumbnails_product" class="form-control input-md border border-secondary px-2" multiple>
+                                <input type="file" id="thumbnails_product" name="thumbnails_product[]" class="form-control input-md border border-secondary px-2" multiple>
                             </div>
-                        </div>
+                        </div>                        
 
                         <div class="form-group my-2">
                             <div class="col-md-8 offset-md-4">

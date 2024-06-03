@@ -33,48 +33,63 @@
                     <form action="{{ route('product.update-product', ['slug' => $data->product_slug_name]) }}" class="form-horizontal" enctype="multipart/form-data" method="POST">
                         @csrf
                         @method('PUT')
+
+
                         <div class="form-group row my-2">
                             <label for="product_name" class="col-md-4 control-label fw-bold">Tên sản phẩm</label>
                             <div class="col-md-8">
                                 <input type="text" id="product_name" placeholder="Nhập tên sản phẩm" name="product_name" class="form-control input-md border border-secondary px-2" value="{{ old('product_name', $data->product_name) }}"/>
                             </div>
                         </div>
+
+
                         <div class="form-group row my-2">
                             <label for="product_short_description" class="col-md-4 control-label fw-bold">Mô tả ngắn</label>
                             <div class="col-md-8">
                                 <textarea class="form-control" id="product_short_description" placeholder="Nhập mô tả ngắn" name="product_short_description">{{ old('product_short_description', $data->product_short_description) }}</textarea>
                             </div>
                         </div>
+
+
                         <div class="form-group row my-2">
                             <label for="product_description" class="col-md-4 control-label fw-bold">Mô tả</label>
                             <div class="col-md-8">
                                 <textarea class="form-control" id="product_description" placeholder="Nhập mô tả" name="product_description">{{ old('product_description', $data->product_description) }}</textarea>
                             </div>
                         </div>
+
+                        
                         <div class="form-group row my-2">
                             <label for="product_regular_price" class="col-md-4 control-label fw-bold">Giá sản phẩm</label>
                             <div class="col-md-8">
                                 <input type="text" id="product_regular_price" placeholder="Nhập giá sản phẩm" class="form-control input-md border border-secondary px-2" name="product_regular_price" value="{{ old('product_regular_price', $data->product_regular_price) }}"/>
                             </div>
                         </div>
+
+
                         <div class="form-group row my-2">
                             <label for="product_percent_sale" class="col-md-4 control-label fw-bold">Phần trăm giảm giá</label>
                             <div class="col-md-8">
                                 <input type="text" id="product_percent_sale" placeholder="Nhập phần trăm giảm giá" class="form-control input-md border border-secondary px-2" name="product_percent_sale" value="{{ old('product_percent_sale', $data->product_percent_sale) }}"/>
                             </div>
                         </div>
+
+
                         <div class="form-group row my-2">
                             <label for="product_quantity" class="col-md-4 control-label fw-bold">Số lượng sản phẩm</label>
                             <div class="col-md-8">
                                 <input type="text" id="product_quantity" placeholder="Nhập số lượng sản phẩm" class="form-control input-md border border-secondary px-2" name="product_quantity" value="{{ old('product_quantity', $data->product_quantity) }}"/>
                             </div>
                         </div>
+
+                        
                         <div class="form-group row my-2">
                             <label for="product_SKU" class="col-md-4 control-label fw-bold">SKU</label>
                             <div class="col-md-8">
                                 <input type="text" id="product_SKU" placeholder="Nhập mã SKU" class="form-control input-md border border-secondary px-2" name="product_SKU" value="{{ old('product_SKU', $data->product_SKU) }}"/>
                             </div>
                         </div>
+
                         <div class="form-group row my-2">
                             <label for="stock_status" class="col-md-4 control-label fw-bold">Trạng thái đơn hàng</label>
                             <div class="col-md-8">
@@ -84,6 +99,8 @@
                                 </select>
                             </div>
                         </div>
+
+
                         <div class="form-group row my-2">
                             <label for="product_image" class="col-md-4 control-label fw-bold">Ảnh sản phẩm</label>
                             <div class="col-md-8">
@@ -93,12 +110,20 @@
                                 @endif
                             </div>
                         </div>
+
+
                         <div class="form-group row my-2">
-                            <label for="product_images" class="col-md-4 control-label fw-bold">Ảnh sản phẩm con</label>
+                            <label for="thumbnails_product" class="col-md-4 control-label fw-bold">Ảnh sản phẩm con</label>
                             <div class="col-md-8">
-                                <input type="file" id="thumbnails_product" name="thumbnails_product" class="form-control input-md border border-secondary px-2" multiple>
+                                <input type="file" id="thumbnails_product" name="thumbnails_product[]" class="form-control input-md border border-secondary px-2" multiple>
                             </div>
                         </div>
+                        <div class="d-flex">
+                            @foreach($thumbnails as $thumbnail)
+                                <img src="{{ asset('img/thumbnail') }}/{{ $thumbnail->thumbnails_product }}" style="height:150px" class="p-2" alt="{{ $data->product_name }}">
+                            @endforeach
+                        </div>
+
                         <div class="form-group row my-2">
                             <label for="category_id" class="col-md-4 control-label fw-bold">Category</label>
                             <div class="col-md-8">

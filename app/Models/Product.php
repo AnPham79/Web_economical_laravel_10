@@ -4,11 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Contracts\Database\Query\Builder as QueryBuilder;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
 {
@@ -27,9 +25,9 @@ class Product extends Model
         'category_id'
     ];
 
-    public function thumbnails(): HasMany
+    public function thumbnails()
     {
-        return $this->hasMany(Product::class);
+        return $this->hasMany(Thumbnail::class, 'product_id');
     }
 
     public function category(): BelongsTo

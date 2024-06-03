@@ -16,27 +16,22 @@
                 <div class="col-lg-2 d-none d-md-block">
                     <div class="row">
                         <img src="{{ asset('img/product') }}/{{ $data->product_image }}" class="d-block w-100" alt="{{ $data->product_name }}">
-                        @if ($data->product_images)
-                            @foreach(json_decode($data->product_images, true) as $image)
-                                <img src="{{ asset('img/thumbnail') }}/{{ $image }}" class="d-block w-100" alt="{{ $data->product_name }}">
-                            @endforeach
-                        @endif
+                        @foreach($thumbnails as $thumbnail)
+                            <img src="{{ asset('img/thumbnail') }}/{{ $thumbnail->thumbnails_product }}" class="d-block w-100" alt="{{ $data->product_name }}">
+                        @endforeach
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-12 col-sm-12">
-                    <!-- Hiện carousel ở màn hình md và lớn hơn -->
                     <div class="carousel slide" id="carouselExampleAutoplaying" data-bs-ride="carousel">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
                                 <img src="{{ asset('img/product') }}/{{ $data->product_image }}" class="d-block w-100" alt="{{ $data->product_name }}">
                             </div>
-                            @if($data->product_images)
-                                @foreach(json_decode($data->product_images, true) as $image)
-                                    <div class="carousel-item">
-                                        <img src="{{ asset('img/thumbnail') }}/{{ $image }}" class="d-block w-100" alt="{{ $data->product_name }}">
-                                    </div>
-                                @endforeach
-                            @endif
+                            @foreach($thumbnails as $thumbnail)
+                                <div class="carousel-item">
+                                    <img src="{{ asset('img/thumbnail') }}/{{ $thumbnail->thumbnails_product }}" class="d-block w-100" alt="{{ $data->product_name }}">
+                                </div>
+                            @endforeach
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying"
                             data-bs-slide="prev">
@@ -212,6 +207,11 @@
                         </div>
 
                         <!-- ------------- end modal -------------------------------- -->
+
+                        <div class="quantity-in-stock mt-3">
+                            Số lượng trong kho: {{ $data->product_quantity }}
+                        </div>
+
                         <div class="product-detail-update-quantity d-flex my-4">
                             <p class="fw-bold px-2" style="margin-bottom: 0; transform: translateY(7px);">Số
                                 lượng</p>
@@ -219,7 +219,7 @@
                                 <i class="fas fa-minus"></i>
                             </button>
                             <input type="text" id="quantityInput"
-                                class="form-control border-secondary-subtle w-25 rounded-0" value="1">
+                                id="quantityInput" class="form-control border-secondary-subtle w-25 rounded-0" value="1" min="1" max="{{ $data->product_quantity }}">
                             <button class="quantity-btn btn btn-dark rounded-0" type="button"
                                 onclick="increaseQuantity()">
                                 <i class="fas fa-plus"></i>
@@ -228,6 +228,8 @@
 
                         <form action="" method="POST" id="addToCartBtn">
                             <div class="product-detail-add-to-cart">
+                                <input type="text" id="quantityInput"
+                                id="quantityInput-lmao" class="form-control border-secondary-subtle w-25 rounded-0" value="1" min="1" max="{{ $data->product_quantity }}">
                                 <button type="submit" class="btn btn-outline border-dark rounded-0 w-100 my-2">Thêm
                                     vào giỏ hàng</button>
                             </div>
@@ -306,3 +308,23 @@
     </main>
     <!-- Button trigger modal -->
 @endsection
+
+<script>
+    var value = 1;
+    var min = 1;
+    var max = {{ $data->product_quantity }};
+
+    function decreaseQuantity() {
+        if (value > min) {
+            value--;
+            document.getElementById('quantityInput').value = value;
+        }
+    }
+
+    function increaseQuantity() {
+        if (value < max) {
+            value++;
+            document.getElementById('quantityInput').value = value;
+        }
+    }
+</script>

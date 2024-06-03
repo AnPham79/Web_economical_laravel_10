@@ -17,7 +17,7 @@
 <body ng-controller="MyController">
     <a href="https://id.zalo.me/account?continue=https://chat.zalo.me" class="zalo-me"><img src="{{ asset('img/linhtinh/zalo.png') }}" style="height: 50px;"
             alt=""></a>
-    <a href="#" class="scrollToTopBtn"><i class="fa-solid fa-arrow-up"></i></a>
+    <a href="#" class="scrollToTopBtn"><i style="transform: translateY(10px)" class="fa-solid fa-arrow-up"></i></a>
     <div class="container">
         <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3">
             <div class="col-md-3 mb-2 mb-md-0">

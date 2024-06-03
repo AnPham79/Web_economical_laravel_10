@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class CheckLoginMiddleware
@@ -15,7 +16,7 @@ class CheckLoginMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!session()->has('role')) {
+        if (!Auth::user()->role) {
             return redirect()->route('login');
         }
 

@@ -14,6 +14,7 @@ use App\Http\Controllers\SizeProductController;
 
 use App\Http\Controllers\CategoryController;
 
+use App\Http\Controllers\CartController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -72,6 +73,8 @@ Route::middleware(['checkLogin'])->group(function () {
     Route::get('/cart', function() {
         return view('cart');
     })->name('cart');
+
+    Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('add-to-cart');
 });
 
 // ----------------------------------------------- admin middleware ----------------------------------------------------------------
