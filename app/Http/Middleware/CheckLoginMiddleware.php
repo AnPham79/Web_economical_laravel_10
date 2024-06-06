@@ -16,7 +16,8 @@ class CheckLoginMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::user()->role) {
+        $user = Auth::user();
+        if (!$user) {
             return redirect()->route('login');
         }
 

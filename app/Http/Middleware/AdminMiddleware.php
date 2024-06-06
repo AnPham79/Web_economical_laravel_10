@@ -16,12 +16,11 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // Kiểm tra xem session 'role' có tồn tại và có giá trị bằng 0 hay không
-        if(Auth::user()->role == 0)
-        {
-            return $next($request);
+        $user = Auth::user();
+        if (!$user->role == 0) {
+            return redirect()->route('login');
         }
 
-        return redirect()->route('index');
+        return $next($request);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\SizeProduct;
 
 class HomeController extends Controller
 {
@@ -24,10 +25,13 @@ class HomeController extends Controller
 
         $more_products = Product::inRandomOrder()->limit(4)->get();
 
+        $size = SizeProduct::all();
+
         $thumbnails = $data->thumbnails;
 
         return view('detail', [
             'data' => $data,
+            'size' => $size,
             'more_products' => $more_products,
             'thumbnails' => $thumbnails
         ]);

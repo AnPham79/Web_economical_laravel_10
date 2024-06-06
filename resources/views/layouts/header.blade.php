@@ -39,7 +39,7 @@
                     <a href="{{ route('cart') }}" class="text-decoration-none text-dark px-2"><i class="fa-solid fa-bag-shopping mx-2"></i>Giỏ
                         hàng</a>
                     <div class="quantity-cart position-absolute">
-                        <span>0</span>
+                        <span>{{ $cartCount }}</span>
                     </div>
                 </div>
 

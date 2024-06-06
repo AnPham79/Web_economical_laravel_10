@@ -70,11 +70,15 @@ Route::put('/process-change-password', [AuthController::class, 'processChangePas
 // ------------------------------------------------------------------------------------------------------------------------------------
 
 Route::middleware(['checkLogin'])->group(function () {
-    Route::get('/cart', function() {
-        return view('cart');
-    })->name('cart');
+    Route::get('/cart', [CartController::class, 'loadCart'])->name('cart');
 
-    Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('add-to-cart');
+    Route::post('/add-to-cart/{slug}', [CartController::class, 'addToCart'])->name('add-to-cart');
+
+    Route::post('/increase-quantity-quantity/{slug}', [CartController::class, 'increaseQuantity'])->name('increase-quantity-product');
+
+    Route::post('/decrease-quantity-quantity/{slug}', [CartController::class, 'decreaseQuantity'])->name('decrease-quantity-product');
+
+    Route::post('/delete-product-in-cart/{slug}', [CartController::class , 'deleteProductInCart'])->name('delete-product-in-cart');
 });
 
 // ----------------------------------------------- admin middleware ----------------------------------------------------------------

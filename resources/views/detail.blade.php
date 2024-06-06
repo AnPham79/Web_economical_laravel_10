@@ -69,169 +69,171 @@
                             @endif
                         </div>
 
-                        <div class="product-detail-size mb-4" ng-controller="SizeController">
-                            <p class="fw-bold mb-2" style="margin-bottom: 0px;">Kích thước</p>
-                            <button class="size-btn btn btn-outline border border-secondary-subtle rounded-0"
-                                style="font-size: 13px;" ng-click="selectSize(38)">size 38</button>
-                            <button class="size-btn btn btn-outline border border-secondary-subtle rounded-0"
-                                style="font-size: 13px;" ng-click="selectSize(39)">size 39</button>
-                            <button class="size-btn btn btn-outline border border-secondary-subtle rounded-0"
-                                style="font-size: 13px;" ng-click="selectSize(40)">size 40</button>
-                            <button class="size-btn btn btn-outline border border-secondary-subtle rounded-0"
-                                style="font-size: 13px;" ng-click="selectSize(41)">size 41</button>
-                        </div>
-
-                        <div class="product-detail-instruct">
-                            <a href data-bs-toggle="modal" data-bs-target="#exampleModal"> Hướng dẫn
-                                chọn size tại đây</a>
-                        </div>
-                        <!-- Modal -->
-                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                            aria-hidden="true">
-                            <div class="modal-dialog modal-xl">
-                                <div class="modal-content" style="z-index: 99999;">
-                                    <div class="modal-header text-center">
-                                        <h1 class="modal-title fs-5" id="exampleModalLabel">HƯỚNG DẪN
-                                            CHỌN SIZE</h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="container">
-                                            <div class="row">
-                                                <div class="col">
-                                                    <table class="table table-bordered text-center">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>SIZE</th>
-                                                                <th>VAI
-                                                                    (cm)</th>
-                                                                <th>NGỰC
-                                                                    (cm)</th>
-                                                                <th>EO
-                                                                    (cm)</th>
-                                                                <th>MÔNG
-                                                                    (cm)</th>
-                                                                <th>CÂN NẶNG
-                                                                    (kg)</th>
-                                                                <th>CHIỀU
-                                                                    CAO
-                                                                    (cm)</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>S -
-                                                                    02</td>
-                                                                <td>35</td>
-                                                                <td>82</td>
-                                                                <td>66</td>
-                                                                <td>86</td>
-                                                                <td>45 -
-                                                                    50</td>
-                                                                <td>150 -
-                                                                    160</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>M -
-                                                                    04</td>
-                                                                <td>36</td>
-                                                                <td>86</td>
-                                                                <td>70</td>
-                                                                <td>90</td>
-                                                                <td>51 -
-                                                                    55</td>
-                                                                <td>155 -
-                                                                    160</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>L -
-                                                                    06</td>
-                                                                <td>37</td>
-                                                                <td>90</td>
-                                                                <td>75</td>
-                                                                <td>94</td>
-                                                                <td>56 -
-                                                                    60</td>
-                                                                <td>155 -
-                                                                    160</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>XL -
-                                                                    08</td>
-                                                                <td>38</td>
-                                                                <td>94</td>
-                                                                <td>80</td>
-                                                                <td>98</td>
-                                                                <td>61 -
-                                                                    64</td>
-                                                                <td>160 -
-                                                                    165</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>2XL -
-                                                                    10</td>
-                                                                <td>39</td>
-                                                                <td>98</td>
-                                                                <td>84</td>
-                                                                <td>102</td>
-                                                                <td>65 -
-                                                                    68</td>
-                                                                <td>160 -
-                                                                    165</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>3XL -
-                                                                    12</td>
-                                                                <td>40</td>
-                                                                <td>102</td>
-                                                                <td>88</td>
-                                                                <td>106</td>
-                                                                <td>69 -
-                                                                    70</td>
-                                                                <td>160 -
-                                                                    165</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">Đóng</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                         <!-- ------------- end modal -------------------------------- -->
 
                         <div class="quantity-in-stock mt-3">
                             Số lượng trong kho: {{ $data->product_quantity }}
                         </div>
 
-                        <div class="product-detail-update-quantity d-flex my-4">
-                            <p class="fw-bold px-2" style="margin-bottom: 0; transform: translateY(7px);">Số
-                                lượng</p>
-                            <button class="quantity-btn btn btn-dark rounded-0" type="button" onclick="decreaseQuantity()">
-                                <i class="fas fa-minus"></i>
-                            </button>
-                            <input type="text" id="quantityInput"
-                                id="quantityInput" class="form-control border-secondary-subtle w-25 rounded-0" value="1" min="1" max="{{ $data->product_quantity }}">
-                            <button class="quantity-btn btn btn-dark rounded-0" type="button"
-                                onclick="increaseQuantity()">
-                                <i class="fas fa-plus"></i>
-                            </button>
+                        <div class="how-to-choose-size mb-4">
+                            <div class="product-detail-instruct">
+                                <a href data-bs-toggle="modal" data-bs-target="#exampleModal"> Hướng dẫn
+                                    chọn size tại đây</a>
+                            </div>
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog modal-xl">
+                                    <div class="modal-content" style="z-index: 99999;">
+                                        <div class="modal-header text-center">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">HƯỚNG DẪN
+                                                CHỌN SIZE</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="container">
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <table class="table table-bordered text-center">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>SIZE</th>
+                                                                    <th>VAI
+                                                                        (cm)</th>
+                                                                    <th>NGỰC
+                                                                        (cm)</th>
+                                                                    <th>EO
+                                                                        (cm)</th>
+                                                                    <th>MÔNG
+                                                                        (cm)</th>
+                                                                    <th>CÂN NẶNG
+                                                                        (kg)</th>
+                                                                    <th>CHIỀU
+                                                                        CAO
+                                                                        (cm)</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>S -
+                                                                        02</td>
+                                                                    <td>35</td>
+                                                                    <td>82</td>
+                                                                    <td>66</td>
+                                                                    <td>86</td>
+                                                                    <td>45 -
+                                                                        50</td>
+                                                                    <td>150 -
+                                                                        160</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>M -
+                                                                        04</td>
+                                                                    <td>36</td>
+                                                                    <td>86</td>
+                                                                    <td>70</td>
+                                                                    <td>90</td>
+                                                                    <td>51 -
+                                                                        55</td>
+                                                                    <td>155 -
+                                                                        160</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>L -
+                                                                        06</td>
+                                                                    <td>37</td>
+                                                                    <td>90</td>
+                                                                    <td>75</td>
+                                                                    <td>94</td>
+                                                                    <td>56 -
+                                                                        60</td>
+                                                                    <td>155 -
+                                                                        160</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>XL -
+                                                                        08</td>
+                                                                    <td>38</td>
+                                                                    <td>94</td>
+                                                                    <td>80</td>
+                                                                    <td>98</td>
+                                                                    <td>61 -
+                                                                        64</td>
+                                                                    <td>160 -
+                                                                        165</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>2XL -
+                                                                        10</td>
+                                                                    <td>39</td>
+                                                                    <td>98</td>
+                                                                    <td>84</td>
+                                                                    <td>102</td>
+                                                                    <td>65 -
+                                                                        68</td>
+                                                                    <td>160 -
+                                                                        165</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>3XL -
+                                                                        12</td>
+                                                                    <td>40</td>
+                                                                    <td>102</td>
+                                                                    <td>88</td>
+                                                                    <td>106</td>
+                                                                    <td>69 -
+                                                                        70</td>
+                                                                    <td>160 -
+                                                                        165</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Đóng</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
-                        <form action="" method="POST" id="addToCartBtn">
+                        <form action="{{ route('add-to-cart', ['slug' => $data->product_slug_name]) }}" method="POST" id="addToCartBtn">
+                            @csrf
+
+
+                            <div class="product-detail-size mb-4">
+                                <p class="fw-bold mb-2" style="margin-bottom: 0px;">Kích thước</p>
+                                @foreach($size as $size)
+                                    <button type="button" class="size-btn btn btn-outline border border-secondary-subtle rounded-0" style="font-size: 13px;" onclick="selectSize({{ $size->id }})">{{ $size->size }}</button>
+                                @endforeach
+
+                                <div class="mt-2">
+                                    @if(session()->has('error'))
+                                        <p class="text-danger">{{ session()->get('error') }}</p>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="product-detail-update-quantity d-flex my-4">
+                                <p class="fw-bold px-2" style="margin-bottom: 0; transform: translateY(7px);">Số lượng</p>
+                                <button class="quantity-btn btn btn-dark rounded-0" type="button" onclick="decreaseQuantity()">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <input type="number" id="quantityInput" name="quantity" class="form-control border-secondary-subtle w-25 rounded-0" value="1" min="1" max="{{ $data->product_quantity }}">
+                                <button class="quantity-btn btn btn-dark rounded-0" type="button" onclick="increaseQuantity()">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+
+
+                            <input type="hidden" name="size" id="selectedSize">
                             <div class="product-detail-add-to-cart">
-                                <input type="text" id="quantityInput"
-                                id="quantityInput-lmao" class="form-control border-secondary-subtle w-25 rounded-0" value="1" min="1" max="{{ $data->product_quantity }}">
-                                <button type="submit" class="btn btn-outline border-dark rounded-0 w-100 my-2">Thêm
-                                    vào giỏ hàng</button>
+                                <button type="submit" class="btn btn-outline border-dark rounded-0 w-100 my-2">Thêm vào giỏ hàng</button>
                             </div>
                         </form>
 
@@ -313,6 +315,10 @@
     var value = 1;
     var min = 1;
     var max = {{ $data->product_quantity }};
+
+    function selectSize(sizeId) {
+        document.getElementById('selectedSize').value = sizeId;
+    }
 
     function decreaseQuantity() {
         if (value > min) {
