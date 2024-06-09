@@ -3,18 +3,42 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\Coupon;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redis;
 
 class CartController extends Controller
 {
-    public function loadCart()
+    public function loadCart(Request $request)
     {
         $cart = Cart::where('user_id', Auth::user()->id)->get();
 
         $products = Product::inRandomOrder()->limit(4)->get();
+
+        $code = $request->get('code');
+
+        if($code)
+        {
+            $coupon = Coupon::where('code', $code)
+                ->first();
+
+            if($coupon)
+            {
+                session([
+                    'id' => $coupon->id,
+                    'code' => $coupon->code,
+                    'type' => $coupon->type,
+                    'coupon_value' => $coupon->coupon_value,
+                    'cart_value' => $coupon->cart_value,
+                ]);
+
+                session()->flash('coupon-success', 'Sử dụng mã giảm giá thành công');
+            } else {
+                session()->flash('coupon-error', 'Nhập mã giảm giá sai hoặc không tồn tại');
+            }
+            return view('cart', compact(['cart','products']));
+        }
 
         return view('cart', compact(['cart','products']));
     }

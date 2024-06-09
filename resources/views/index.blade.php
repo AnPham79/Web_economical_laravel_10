@@ -169,7 +169,7 @@
                         </div>
                     </div>
                     <div class="view-all-product d-flex justify-content-center mt-4">
-                        <a href="{{ route('product-page-sale') }}" class="text-decoration-none"><button class="btn btn-dark rounded-0">Xem tất
+                        <a href="{{ route('product-sale-page') }}" class="text-decoration-none"><button class="btn btn-dark rounded-0">Xem tất
                                 cả</button></a>
                     </div>
                 </div>

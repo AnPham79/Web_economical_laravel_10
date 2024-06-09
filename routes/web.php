@@ -15,6 +15,8 @@ use App\Http\Controllers\SizeProductController;
 use App\Http\Controllers\CategoryController;
 
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CouponController;
+use App\Http\Controllers\OrderController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -65,6 +67,7 @@ Route::post('/handle-register', [AuthController::class, 'handleRegister'])->name
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/change-password', [AuthController::class, 'changePassword'])->name('change-password');
+
 Route::put('/process-change-password', [AuthController::class, 'processChangePassword'])->name('process-change-password');
 
 // ------------------------------------------------------------------------------------------------------------------------------------
@@ -79,7 +82,24 @@ Route::middleware(['checkLogin'])->group(function () {
     Route::post('/decrease-quantity-quantity/{slug}', [CartController::class, 'decreaseQuantity'])->name('decrease-quantity-product');
 
     Route::post('/delete-product-in-cart/{slug}', [CartController::class , 'deleteProductInCart'])->name('delete-product-in-cart');
+
+    Route::get('/check-out', [OrderController::class, 'checkOut'])->name('check-out');
+
+    Route::post('/payment-confirmation', [OrderController::class, 'paymentConfirmation'])->name('payment-confirmation');
+
+    Route::get('/use-coupon', [CartController::class, 'loadCart'])->name('use-coupon');
+
+    Route::get('/un-use-coupon', [CouponController::class, 'unUseCoupon'])->name('un-use-coupon');
+
+    Route::get('/thank-you', function(){
+        view('thank');
+    })->name('thank');
 });
+
+
+
+
+
 
 // ----------------------------------------------- admin middleware ----------------------------------------------------------------
 

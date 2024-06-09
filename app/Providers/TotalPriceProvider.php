@@ -25,6 +25,10 @@ class TotalPriceProvider extends ServiceProvider
         View::composer('*', function ($view) {
             $totalPrice = 0;
 
+            $subtotalFixed = 0;
+
+            $discountAmount = 0;
+
             if (Auth::check()) {
                 $cart = Cart::where('user_id', Auth::user()->id)->get();
 
@@ -40,9 +44,30 @@ class TotalPriceProvider extends ServiceProvider
 
                     $totalPrice += $priceItem;
                 }
+
+                $subtotalFixed = $totalPrice;
+            }
+
+            if(session()->has('code')){
+                if(session()->get('type') == 'fixed')
+                {
+                    $totalPrice = $totalPrice - session()->get('coupon_value');
+                    $discountAmount = session()->get('coupon_value');
+                }
+    
+                if(session()->get('type') == 'percent')
+                {
+                    $subtotal = $totalPrice * (1 - session()->get('coupon_value') / 100);
+                    $discountAmount = $totalPrice - $subtotal;
+                    $totalPrice = $subtotal;
+                }
             }
 
             $view->with('totalPrice', $totalPrice);
+
+            $view->with('subtotalFixed', $subtotalFixed);
+
+            $view->with('discountAmount', $discountAmount);
         });
     }
 }

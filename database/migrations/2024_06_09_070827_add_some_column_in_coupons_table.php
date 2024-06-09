@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('carts', function (Blueprint $table) {
-            // $table->dropColumn('product_name');
-            // $table->dropColumn('product_price');
+        Schema::table('coupons', function (Blueprint $table) {
+            $table->string('code');
+            $table->enum('type', ['fixed', 'percent'])->default('percent');
+            $table->decimal('coupon_value');
+            $table->decimal('cart_value');
         });
     }
 
@@ -22,8 +24,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('carts', function (Blueprint $table) {
-            
+        Schema::table('coupons', function (Blueprint $table) {
+            //
         });
     }
 };

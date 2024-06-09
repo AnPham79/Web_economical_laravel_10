@@ -2,65 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Coupon;
-use App\Http\Requests\StoreCouponRequest;
-use App\Http\Requests\UpdateCouponRequest;
+use App\Models\Cart;
+use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class CouponController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function unUseCoupon()
     {
-        //
-    }
+        $cart = Cart::where('user_id', Auth::user()->id)->get();
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+        $products = Product::inRandomOrder()->limit(4)->get();
+        
+        Session::forget(['id', 'code', 'type', 'coupon_value', 'cart_value']);
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreCouponRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Coupon $coupon)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Coupon $coupon)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateCouponRequest $request, Coupon $coupon)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Coupon $coupon)
-    {
-        //
+        session()->flash('unUseCoupon', 'Hủy dùng mã giảm giá thành công');
+    
+        return view('cart', compact('cart', 'products'));
     }
 }

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Contracts\Database\Query\Builder as QueryBuilder;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
 {
@@ -37,12 +38,12 @@ class Product extends Model
 
     public function scopeFilter(Builder | QueryBuilder $query, $filter)
     {
-        return $query->when(isset($filter['search']), function($query, $search) {
-            $query->where('product_name', 'like', '%' . $search . '%');
-        })->when(isset($filter['min_regular_price']), function($query, $min_regular_price) {
-            $query->where('product_regular_price', '>=', $min_regular_price);
-        })->when(isset($filter['max_regular_price']), function($query, $max_regular_price) {
-            $query->where('product_regular_price', '<=', $max_regular_price);
+        return $query->when(!empty($filter['search']), function($query) use ($filter) {
+            $query->where('product_name', 'like', '%' . $filter['search'] . '%');
+        })->when(!empty($filter['min_regular_price']), function($query) use ($filter) {
+            $query->where('product_regular_price', '>=', $filter['min_regular_price']);
+        })->when(!empty($filter['max_regular_price']), function($query) use ($filter) {
+            $query->where('product_regular_price', '<=', $filter['max_regular_price']);
         })->when(isset($filter['product_sale_status']) && $filter['product_sale_status'] === 'on_sale', function($query) {
             $query->where('product_percent_sale', '>', 0);
         })->when(isset($filter['product_sale_status']) && $filter['product_sale_status'] === 'none_sale', function($query) {
@@ -53,6 +54,11 @@ class Product extends Model
     public function carts()
     {
         return $this->hasMany(Cart::class);
+    }
+
+    public function orderDetails(): HasMany
+    {
+        return $this->hasMany(OrderDetail::class);
     }
 
 }
