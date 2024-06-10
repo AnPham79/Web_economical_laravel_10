@@ -17,6 +17,8 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\UserController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -72,6 +74,8 @@ Route::put('/process-change-password', [AuthController::class, 'processChangePas
 
 // ------------------------------------------------------------------------------------------------------------------------------------
 
+
+// ---------------------------------------------- giỏ hàng và thanh toán -----------------------------------------------------------
 Route::middleware(['checkLogin'])->group(function () {
     Route::get('/cart', [CartController::class, 'loadCart'])->name('cart');
 
@@ -96,6 +100,17 @@ Route::middleware(['checkLogin'])->group(function () {
     })->name('thank');
 });
 
+
+// -------------------------------------------------- cài đặt và quản lí các thao tác của user --------------------------------------
+Route::middleware(['checkLogin'])->group(function () {
+    Route::get('/order-history', [UserController::class, 'orderHistory'])->name('order-history');
+
+    Route::get('/order-detail/{id}', [UserController::class, 'orderDetail'])->name('order-detail');
+
+    Route::put('/cancel-order/{status}', [UserController::class, 'cancelOrder'])->name('cancel-order');
+});
+
+// -----------------------------------------------------------------------------------------------------------------------------------
 
 
 

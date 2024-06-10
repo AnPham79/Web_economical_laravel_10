@@ -32,160 +32,148 @@
                 </div>
             @endif
 
-            @foreach ($cart as $item)
+            @forelse ($cart as $item)
                 <div class="product-in_cart d-flex flex-column flex-md-row justify-content-between">
                     <div class="img-product-in_cart mb-3 mb-md-0">
-                        <img src="{{ asset('img/product') }}/{{ $item->product->product_image }}" style="height: 200px;"
-                            alt="">
+                        <img src="{{ asset('img/product') }}/{{ $item->product->product_image }}" style="height: 200px;" alt="">
                     </div>
                     <div class="in4-product-in_cart mb-3 mb-md-0" style="transform: translateY(30%);">
                         <span><b>Tên sản phẩm:</b> {{ $item->product->product_name }}</span>
                         <p class="mb-0"><b>Thương hiệu:</b> BAOAN STORE</p>
                         <p class="mb-0"><b>size:</b> {{ $item->size->size }}</p>
                     </div>
-                    @if ($item->product->product_percent_sale !== null)
-                        <div class="price-product-in_cart mb-3 mb-md-0" style="transform: translateY(30%);">
-                            <span class="text-secondary"
-                                style="text-decoration: line-through;">{{ number_format($item->product->product_regular_price) }}
-                                VND</span>
-                        </div>
-                    @else
-                        <div class="price-product-in_cart mb-3 mb-md-0" style="transform: translateY(30%);">
-                            <span>{{ number_format($item->product->product_regular_price) }} VND</span>
-                        </div>
-                    @endif
 
-                    @if ($item->product->product_percent_sale == null)
-                        <div class="price-product-in_cart mb-3 mb-md-0" style="transform: translateY(30%);">
-                            <span>Không giảm giá</span>
-                        </div>
-                    @else
-                        <div class="price-product-in_cart mb-3 mb-md-0" style="transform: translateY(30%);">
-                            <span>{{ number_format($item->product->product_regular_price * (1 - $item->product->product_percent_sale / 100)) }}
-                                VND</span>
-                        </div>
-                    @endif
+
+                    <div class="price-product-in_cart mb-3 mb-md-0" style="transform: translateY(30%);">
+                        @if ($item->product->product_percent_sale !== null)
+                            <span class="text-secondary mx-5" style="text-decoration: line-through;">
+                                {{ number_format($item->product->product_regular_price) }} VND
+                            </span>
+                        @endif
+                        <span>
+                            {{ number_format($item->product->product_regular_price * (1 - $item->product->product_percent_sale / 100)) }} VND
+                        </span>
+                        <span class="mx-5">{{ $item->product->product_percent_sale ? '' : 'Không giảm giá' }}</span>
+                    </div>
+
+
                     <div class="in4-product-in_cart mb-3 mb-md-0 d-flex" style="transform: translateY(30%);">
-                        <form
-                            action="{{ route('decrease-quantity-product', ['slug' => $item->product->product_slug_name]) }}"
-                            method="POST" class="mx-1">
+                        <form action="{{ route('decrease-quantity-product', ['slug' => $item->product->product_slug_name]) }}" method="POST" class="mx-1">
                             @csrf
                             <button class="btn btn-dark rounded-0"><i class="fa-solid fa-minus"></i></button>
                         </form>
                         <span style="transform: translateY(7px)">{{ $item->product_quantity }}</span>
-                        <form
-                            action="{{ route('increase-quantity-product', ['slug' => $item->product->product_slug_name]) }}"
-                            method="POST" class="mx-1">
+                        <form action="{{ route('increase-quantity-product', ['slug' => $item->product->product_slug_name]) }}" method="POST" class="mx-1">
                             @csrf
                             <button class="btn btn-dark rounded-0"><i class="fa-solid fa-plus"></i></button>
                         </form>
                     </div>
-                    @if ($item->product->product_percent_sale == null)
-                        <div class="total-price-product-in_cart mb-3 mb-md-0" style="transform: translateY(30%);">
-                            <span>{{ number_format($item->product->product_regular_price * $item->product_quantity) }}
-                                VND</span>
-                        </div>
-                    @else
-                        @php
-                            $price_sale =
-                                $item->product->product_regular_price *
-                                (1 - $item->product->product_percent_sale / 100);
-                        @endphp
-                        <div class="total-price-product-in_cart mb-3 mb-md-0" style="transform: translateY(30%);">
-                            <span>{{ number_format($price_sale * $item->product_quantity) }} VND</span>
-                        </div>
-                    @endif
+                    <div class="total-price-product-in_cart mb-3 mb-md-0" style="transform: translateY(30%);">
+                        <span>
+                            {{ number_format(($item->product->product_regular_price * (1 - $item->product->product_percent_sale / 100)) * $item->product_quantity) }} VND
+                        </span>
+                    </div>
                     <div class="delete-product-in_cart" style="transform: translateY(30%);">
-                        <form action="{{ route('delete-product-in-cart', ['slug' => $item->product->product_slug_name]) }}"
-                            method="POST">
+                        <form action="{{ route('delete-product-in-cart', ['slug' => $item->product->product_slug_name]) }}" method="POST">
                             @csrf
                             <button class="btn btn-danger text-white"><i class="fa-solid fa-trash"></i></button>
                         </form>
                     </div>
                 </div>
-            @endforeach
-        </div>
-
-        <div class="container">
-
-            @if (session()->has('coupon-success'))
-                <div class="alert alert-success">
-                    {{ session()->get('coupon-success') }}
+            @empty
+                <div class="w-100 text-center">
+                    <img src="{{ asset('img/linhtinh/cart-empty.png') }}" class="w-50" alt="">
                 </div>
-            @endif
-
-            @if (session()->has('coupon-error'))
-                <div class="alert alert-danger">
-                    {{ session()->get('coupon-error') }}
-                </div>
-            @endif
-
-            @if (session()->has('unUseCoupon'))
-                <div class="alert alert-success">
-                    {{ session()->get('unUseCoupon') }}
-                </div>
-            @endif
-
-            <form action="{{ route('use-coupon') }}" method="GET" class="mb-4">
-                @csrf
-                <span class="fs-5 fw-bold">Dùng mã giảm giá</span>
-                <div class="input-group mt-2">
-                    <input type="text" name="code" value="{{ session()->get('code') ?? '' }}"
-                        class="form-control border border-secondary-subtle rounded-0" placeholder="Nhập mã giảm giá">
-                    <button class="btn btn-dark rounded-0">Dùng</button>
-                </div>
-            </form>
-
-            @if(session()->has('code'))
-                <a href="{{ route('un-use-coupon') }}">Hủy dùng mã giảm giá</a>
-            @endif
+            @endforelse
 
         </div>
 
-        <div class="container mt-5">
-            <div class="total-cart">
-                <div class="group-total d-flex justify-content-between">
-                    <p class="mb-0">Tổng tiền tạm thời:</p>
-                    <span>{{ number_format($subtotalFixed) }} VND</span>
-                </div>
-                <div class="group-total d-flex justify-content-between">
-                    <p class="mb-0">Mã giảm giá:</p>
-                    @if(session()->has('code'))
-                        <span>{{ session()->get('code') }}</span>
-                    @else
-                        <span>Không có</span>
-                    @endif
-                </div>
-                <div class="group-total d-flex justify-content-between">
-                    <p class="mb-0">Giá trị giảm:</p>
-                    @php
-                        $couponValue = session()->get('coupon_value');
-                        $couponType = session()->get('type');
-                    @endphp
-                    @if (!is_null($couponValue) && !is_null($couponType))
-                        <span>{{ $couponType == 'percent' ? number_format($couponValue) . '%' : number_format($couponValue) . ' VND' }}</span>
-                    @else
-                        <span>Không có</span>
-                    @endif
-                </div>                
-                <div class="group-total d-flex justify-content-between">
-                    <p class="mb-0">Giá giảm:</p>
-                    <span>{{ number_format($discountAmount) }} VND</span>
-                </div>
-                <div class="group-total d-flex justify-content-between">
-                    <p class="mb-0">Tiền ship:</p>
-                    <span>Free ship</span>
-                </div>
-                <div class="group-total d-flex justify-content-between">
-                    <p class="mb-0">Tổng tiền:</p>
-                    <span>{{ number_format($totalPrice) }} VND</span>
+        @if($cart->count() > 0)
+            <div class="container">
+
+                @if (session()->has('coupon-success'))
+                    <div class="alert alert-success">
+                        {{ session('coupon-success') }}
+                    </div>
+                @endif
+
+                @if (session()->has('coupon-error'))
+                    <div class="alert alert-danger">
+                        {{ session('coupon-error') }}
+                    </div>
+                @endif
+
+                @if (session()->has('unUseCoupon') || isset($unUseCoupon))
+                    <div class="alert alert-success">
+                        {{ session('unUseCoupon') ?? $unUseCoupon }}
+                    </div>
+                @endif
+
+                <form action="{{ route('use-coupon') }}" method="GET" class="mb-4">
+                    @csrf
+                    <span class="fs-5 fw-bold">Dùng mã giảm giá</span>
+                    <div class="input-group mt-2">
+                        <input type="text" name="code" value="{{ session()->get('code') ?? '' }}"
+                            class="form-control border border-secondary-subtle rounded-0" placeholder="Nhập mã giảm giá">
+                        <button class="btn btn-dark rounded-0">Dùng</button>
+                    </div>
+                </form>
+
+                @if(session()->has('code'))
+                    <a href="{{ route('un-use-coupon') }}">Hủy dùng mã giảm giá</a>
+                @endif
+
+            </div>
+
+            <div class="container mt-5">
+                <div class="total-cart">
+                    <div class="group-total d-flex justify-content-between">
+                        <p class="mb-0">Tổng tiền tạm thời:</p>
+                        <span>{{ number_format($subtotalFixed) }} VND</span>
+                    </div>
+                    <div class="group-total d-flex justify-content-between">
+                        <p class="mb-0">Mã giảm giá:</p>
+                        @if(session()->has('code'))
+                            <span>{{ session()->get('code') }}</span>
+                        @else
+                            <span>Không có</span>
+                        @endif
+                    </div>
+                    <div class="group-total d-flex justify-content-between">
+                        <p class="mb-0">Giá trị giảm:</p>
+                        @php
+                            $couponValue = session()->get('coupon_value');
+                            $couponType = session()->get('type');
+                        @endphp
+                        @if (!is_null($couponValue) && !is_null($couponType))
+                            <span>{{ $couponType == 'percent' ? number_format($couponValue) . '%' : number_format($couponValue) . ' VND' }}</span>
+                        @else
+                            <span>Không có</span>
+                        @endif
+                    </div>                
+                    <div class="group-total d-flex justify-content-between">
+                        <p class="mb-0">Giá giảm:</p>
+                        <span>{{ number_format($discountAmount) }} VND</span>
+                    </div>
+                    <div class="group-total d-flex justify-content-between">
+                        <p class="mb-0">Tiền ship:</p>
+                        <span>Free ship</span>
+                    </div>
+                    <div class="group-total d-flex justify-content-between">
+                        <p class="mb-0">Tổng tiền:</p>
+                        <span>{{ number_format($totalPrice) }} VND</span>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="container mt-5">
-            <a href="{{ route('check-out') }}"><button class="btn btn-dark rounded-0 w-100">Tiến hành đặt hàng</button></a>
-        </div>
+            <div class="container mt-5">
+                <a href="{{ route('check-out') }}"><button class="btn btn-dark rounded-0 w-100 ">Tiến hành đặt hàng</button></a>
+            </div>
+        @else
+            <div class="container text-center">
+                <a href="{{ route('product-page') }}">Giỏ hàng của bạn chưa có sản phẩm nào, nhấn vào đây để đi mua sắm nhé</a>
+            </div>
+        @endif
 
         <div class="container mt-5">
             <div class="article">

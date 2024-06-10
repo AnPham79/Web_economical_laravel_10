@@ -43,9 +43,8 @@
                     </div>
                 </div>
 
-
                 @if(Auth::check())
-                    <div class="nav-item action-user mx-2">
+                    <div class="nav-item action-user mx-2 pt-1">
                         <span style="cursor: pointer;">Hi: {{ Auth::user()->name }}</span>
                         <div class="subnav subnav-user">
                             <ul>
@@ -55,7 +54,7 @@
                                 </li>
                                 <li>
                                     <i class='bx bx-chevron-right' style="transform: translateY(5px);"></i>
-                                    <a href="#" style="font-size:13px;">Lịch sử mua hàng</a>
+                                    <a href="{{ route('order-history') }}" style="font-size:13px;">Lịch sử mua hàng</a>
                                 </li>
                                 <li>
                                     <i class='bx bx-chevron-right' style="transform: translateY(5px);"></i>

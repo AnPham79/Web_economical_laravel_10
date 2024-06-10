@@ -16,9 +16,7 @@ class CouponController extends Controller
         $products = Product::inRandomOrder()->limit(4)->get();
         
         Session::forget(['id', 'code', 'type', 'coupon_value', 'cart_value']);
-
-        session()->flash('unUseCoupon', 'Hủy dùng mã giảm giá thành công');
     
-        return view('cart', compact('cart', 'products'));
+        return view('cart', compact('cart', 'products'))->with('unUseCoupon', 'Hủy dùng mã giảm giá thành công');
     }
 }

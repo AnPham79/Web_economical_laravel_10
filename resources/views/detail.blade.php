@@ -43,7 +43,18 @@
                         </button>
                     </div>
                 </div>
+                
+
+
                 <div class="col-lg-4 col-md-12 col-sm-12">
+                    
+                    @if(session()->has('message'))
+                        <div class="alert alert-success">
+                            {{ session()->get('message') }}
+                        </div>
+                    @endif
+
+
                     <div class="product-detail">
                         <div class="product-detail-name mb-4">
                             <h5 class="fs-4 fw-bold">{{ $data->product_name }}</h5>
@@ -204,7 +215,6 @@
 
                         <form action="{{ route('add-to-cart', ['slug' => $data->product_slug_name]) }}" method="POST" id="addToCartBtn">
                             @csrf
-
 
                             <div class="product-detail-size mb-4">
                                 <p class="fw-bold mb-2" style="margin-bottom: 0px;">Kích thước</p>
