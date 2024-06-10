@@ -24,18 +24,18 @@
                 </div>
 
                 <div class="col-md-6">
-                    @if ($errors->any())
-                        <div class="alert alert-danger text-danger">
-                            <ul class="mb-0">
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
                     <form role="form" method="POST" action="{{ route('handle-login') }}">
                         @csrf
                         <h1 class="bold text-center mb-5">Đăng nhập</h1>
+                        @if ($errors->any())
+                            <div class="alert alert-danger text-danger">
+                                <ul class="mb-0">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <div class="form-group mt-3">
                             <label for="email" class="label-control">Địa chỉ email</label>
                             <input type="email" name="email"
@@ -54,12 +54,17 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-check mt-3">
-                            <input class="form-check-input border-secondary-subtle mt-1" type="checkbox" value=""
-                                id="flexCheckChecked" checked>
-                            <label class="form-check-label" for="flexCheckChecked">
-                                Nhắc nhỡ tôi
-                            </label>
+                        <div class="form-lmao d-flex justify-content-between">
+                            <div class="form-check mt-3">
+                                <input class="form-check-input border-secondary-subtle mt-1" type="checkbox" value=""
+                                    id="flexCheckChecked" checked>
+                                <label class="form-check-label" for="flexCheckChecked">
+                                    Nhắc nhỡ tôi
+                                </label>
+                            </div>
+                            <div class="mt-3">
+                                <a href="{{ route('forgot-password') }}">Quên mật khẩu</a>
+                            </div>
                         </div>
                         <div class="form-group mt-4">
                             <button class="rounded-0 btn btn-dark w-100" type="submit">Đăng nhập ngay</button>

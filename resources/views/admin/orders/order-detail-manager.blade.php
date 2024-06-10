@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('admin.layouts.master')
 
 @section('content')
     <div>
@@ -10,20 +10,6 @@
             nav .hidden {
                 display: block !important;
             }
-            .text-danger {
-            color: red;
-            }
-
-            .text-success {
-                color: green;
-            }
-            .text-info {
-                color: blue;
-            }
-            .text-warning {
-                color: orange;
-            }
-            
         </style>
         <div class="container" style="padding:30px 0px">
             <div class="row">
@@ -34,7 +20,7 @@
                                 <h2 class="fw-bold">Chi tiết đơn hàng</h2>
                             </div>
                             <div class="col-md-6 float-end">
-                                <a href="{{ route('order-history') }}" class="btn btn-dark rounded-0 float-end mx-1"
+                                <a href="{{ route('order-manager') }}" class="btn btn-dark rounded-0 float-end mx-1"
                                     style="transform: translateY(-40px);">Quay lại</a>
                             </div>
                         </div>
@@ -114,42 +100,5 @@
                 </div>
             </div>
         </div>
-
-        @if ($product->order->status_order == 'Placed')
-            <div class="container">
-                <form action="{{ route('cancel-order', ['status' => $product->order->status_order]) }}" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <button class="btn btn-danger w-100 rounded-0">Hủy đơn</button>
-                </form>
-            </div>
-        @else
-            <p class="text-center {{ $product->order->status_order == 'Cancelled' ? 'text-danger' : 'text-success' }}">
-                @switch($product->order->status_order)
-                    @case('Confirmed')
-                        Đơn hàng của bạn đã xác nhận
-                    @break
-
-                    @case('Processing')
-                        Đơn hàng của bạn đang được xử lý
-                    @break
-
-                    @case('Shipped')
-                        Đơn hàng của bạn đã được giao hàng
-                    @break
-
-                    @case('Delivered')
-                        Đơn hàng của bạn đã được giao
-                    @break
-
-                    @case('Cancelled')
-                        Đơn hàng của bạn đã bị hủy
-                    @break
-
-                    @default
-                        Trạng thái đơn hàng: {{ $product->order->status_order }}
-                @endswitch
-            </p>
-        @endif
     </div>
 @endsection

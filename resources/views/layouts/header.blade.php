@@ -50,7 +50,7 @@
                             <ul>
                                 <li>
                                     <i class='bx bx-chevron-right' style="transform: translateY(5px);"></i>
-                                    <a href="#" style="font-size:13px;">Đơn hàng</a>
+                                    <a href="#" style="font-size:13px;">Tìm đơn hàng</a>
                                 </li>
                                 <li>
                                     <i class='bx bx-chevron-right' style="transform: translateY(5px);"></i>

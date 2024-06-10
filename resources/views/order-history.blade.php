@@ -79,7 +79,7 @@
                                                 @endswitch
                                             </td>
                                             <td>
-                                                <a href="{{ route('order-detail', ['id' => $item->id]) }}">
+                                                <a href="{{ route('order-manager-detail', ['order_id' => $item->order_id]) }}">
                                                     Chi tiết đơn hàng
                                                 </a>
                                             </td>

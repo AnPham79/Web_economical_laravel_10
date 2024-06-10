@@ -21,7 +21,7 @@
                             <label for="current_password" class="col-md-4 col-form-label text-md-right">Mật khẩu hiện tại</label>
 
                             <div class="col-md-6">
-                                <input id="current_password" type="text" class="form-control my-2 @error('current_password') is-invalid @enderror" name="current_password" required>
+                                <input id="current_password" type="text" class="form-control border-secondary-subtle my-2 @error('current_password') is-invalid @enderror" name="current_password" required>
 
                                 @error('current_password')
                                     <span class="invalid-feedback" role="alert">
@@ -35,7 +35,7 @@
                             <label for="new_password" class="col-md-4 col-form-label text-md-right">Mật khẩu mới</label>
 
                             <div class="col-md-6">
-                                <input id="new_password" type="text" class="form-control my-2 @error('new_password') is-invalid @enderror" name="new_password" required>
+                                <input id="new_password" type="text" class="form-control border-secondary-subtle my-2 @error('new_password') is-invalid @enderror" name="new_password" required>
 
                                 @error('new_password')
                                     <span class="invalid-feedback" role="alert">
@@ -49,14 +49,14 @@
                             <label for="new_password_confirmation" class="col-md-4 col-form-label text-md-right">Xác nhận lại mật khẩu</label>
 
                             <div class="col-md-6">
-                                <input id="new_password_confirmation" type="text" class="form-control my-2" name="new_password_confirmation" required>
+                                <input id="new_password_confirmation" type="text" class="form-control my-2 border-secondary-subtle" name="new_password_confirmation" required>
                             </div>
                         </div>
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Thây đổi mật khẩu
+                                <button type="submit" class="btn btn-dark rounded-0">
+                                    Thay đổi mật khẩu
                                 </button>
                             </div>
                         </div>

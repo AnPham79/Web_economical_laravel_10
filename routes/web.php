@@ -17,6 +17,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OrderDetailController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -72,6 +73,11 @@ Route::get('/change-password', [AuthController::class, 'changePassword'])->name(
 
 Route::put('/process-change-password', [AuthController::class, 'processChangePassword'])->name('process-change-password');
 
+Route::get('/forgot-password', [AuthController::class, 'showForgotPasswordForm'])->name('forgot-password');
+Route::post('/forgot-password', [AuthController::class, 'processForgotPassword']);
+Route::get('/reset-password', [AuthController::class, 'showResetPasswordForm'])->name('reset-password');
+Route::post('/reset-password', [AuthController::class, 'processResetPassword']);
+
 // ------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -115,7 +121,6 @@ Route::middleware(['checkLogin'])->group(function () {
 
 
 
-
 // ----------------------------------------------- admin middleware ----------------------------------------------------------------
 
 Route::middleware(['AdminCheck'])->group(function () {
@@ -147,12 +152,33 @@ Route::middleware(['AdminCheck'])->group(function () {
         Route::delete('/delete-product/{id}', [SizeProductController::class, 'destroy'])->name('size.product-manager.destroy');
     });
 
+    // -------------------------- Quản lí danh mục ---------------------------------------------------------------
     Route::get('/category-manager', [CategoryController::class, 'index'])->name('category.category-manager');
     Route::get('/create-category', [CategoryController::class, 'create'])->name('category.category-create');
     Route::post('/store-category', [CategoryController::class, 'store'])->name('category.category-store');
     Route::get('/edit-category/{category_slug_name}', [CategoryController::class, 'edit'])->name('category.category-edit');
     Route::put('/update-category/{category_slug_name}', [CategoryController::class, 'update'])->name('category.category-update');
     Route::delete('/destroy-category/{category_slug_name}', [CategoryController::class, 'destroy'])->name('category.category-destroy');
+
+    // ------------------------- Quản lí user ----------------------------------------------------------------------
+    Route::get('user-manager', [UserController::class, 'userManager'])->name('user-manager');
+    Route::post('change-status-account/{user_name}', [UserController::class, 'changeStatusAccount'])->name('change-status-account');
+
+    // ------------------------ Quản lí đơn hàng --------------------------------------------------------------------
+    Route::get('order-manager', [OrderDetailController::class , 'orderManager'])->name('order-manager');
+
+    Route::post('update-order-status/{id}', [OrderDetailController::class, 'updateOrderStatus'])->name('update-order-status');
+
+    Route::get('order-manager-detail/{id}', [OrderDetailController::class, 'orderDetailManager'])->name('order-manager-detail');
+
+    // ------------------------- Quản lí mã giảm giá -------------------------------------------------------
+
+    Route::get('coupon-manager', [CouponController::class, 'index'])->name('coupon-manager');
+    Route::get('create-coupon-manager', [CouponController::class, 'create'])->name('create-coupon-manager');
+    Route::post('store-coupon-manager', [CouponController::class, 'store'])->name('store-coupon-manager');
+    Route::get('edit-coupon-manager/{id}', [CouponController::class, 'edit'])->name('edit-coupon-manager');
+    Route::put('update-coupon-manager/{id}', [CouponController::class, 'update'])->name('update-coupon-manager');
+    Route::delete('delete-coupon-manager/{id}', [CouponController::class, 'destroy'])->name('destroy-coupon-manager');
 });
 
 

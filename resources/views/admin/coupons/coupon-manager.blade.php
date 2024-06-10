@@ -19,23 +19,12 @@
                             <div class="panel-heading">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <h2 class="fw-bold">Quản lí danh mục</h2>
+                                        <h2 class="fw-bold">Quản lí mã giảm giá</h2>
                                     </div>
                                     <div class="col-md-6 float-end">
-                                        <a href="{{ route('category.category-create') }}" class="btn btn-success float-end mx-1">Thêm mới
+                                        <a href="{{ route('create-coupon-manager') }}" class="btn btn-success float-end mx-1">
+                                            Thêm mới
                                         </a>
-                                        <form action="" method="POST">
-                                            @csrf
-                                            <button class="btn btn-success float-end mx-1">
-                                                Export CSV
-                                            </button>
-                                        </form>
-                                        <form action="" method="POST">
-                                            @csrf
-                                            <button class="btn btn-success float-end mx-1">
-                                                Export Excel
-                                            </button>
-                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -47,34 +36,48 @@
                                     {{ session()->get('message') }}
                                 </div>
                             @endif
-                            @if(session('error'))
-                                <div class="alert alert-danger text-white">
-                                    {{ session('error') }}
-                                </div>
-                            @endif
                             <table class="table table-triped">
                                 <thead>
                                     <tr class="text-center">
                                         <th>#</th>
-                                        <th>Danh mục</th>
+                                        <th>Mã</th>
+                                        <th>Kiểu</th>
+                                        <th>Giá trị</th>
+                                        <th>Giá trị giỏ hàng tối thiểu</th>
                                         <th>Thao tác</th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-center text-center">
-                                    @foreach ($categories as $item)
+                                    @foreach ($coupons as $item)
                                         <tr>
                                             <td>{{ $item->id }}</td>
                                             <td>
-                                                <p>{{ $item->category_name }}</p>
+                                                <p>{{ $item->code }}</p>
+                                            </td>
+                                            <td>
+                                                @if($item->type == 'percent')
+                                                    <span>Phần trăm</span>
+                                                @else
+                                                    <span>Giá cứng</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if($item->type == 'percent')
+                                                    <span>{{ number_format($item->coupon_value) }}</span>%
+                                                @else
+                                                    <span>{{ number_format($item->coupon_value) }}</span> VND
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <p>{{ number_format($item->cart_value) }} VND</p>
                                             </td>
                                             <td id="deleteForm" class="d-flex justify-content-center">
-                                                <a href="{{ route('category.category-edit', $item->category_slug_name) }}"><i class="fa-solid fa-pen-to-square text-info"></i></i></a>
-
-                                                <button class="border-0 bg-light mx-1" onclick="confirmDelete({{ $item->id }})"><i class="fa-solid fa-trash text-danger"></i></button>
+                                                <a href="{{ route('edit-coupon-manager', $item->id) }}"><i class="fa-solid fa-pen-to-square text-info"></i></i></a>
                                                
-                                                <form action="{{ route('category.category-destroy', $item->category_slug_name ) }}" method="POST" id="delete-category{{ $item->id }}">
+                                                <form action="{{ route('destroy-coupon-manager', $item->id ) }}" method="POST" id="delete-product{{ $item->id }}">
                                                     @csrf
                                                     @method('DELETE')
+                                                    <button class="border-0 bg-light mx-1"><i class="fa-solid fa-trash text-danger"></i></button>
                                                 </form>
                                             </td>
                                         </tr>
@@ -87,14 +90,4 @@
             </div>
         </div>
     </main>
-    <script>
-        function confirmDelete(id) {
-            var result = confirm('Bạn có muốn xóa sản phẩm này không')
-
-            if(result == true)
-            {
-                document.getElementById('delete-category'+id).submit();
-            }
-        }
-    </script>
 @endsection

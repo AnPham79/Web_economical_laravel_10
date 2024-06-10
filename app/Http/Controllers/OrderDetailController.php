@@ -2,65 +2,38 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\OrderDetail;
-use App\Http\Requests\StoreOrderDetailRequest;
-use App\Http\Requests\UpdateOrderDetailRequest;
+use App\Models\Shipping;
+use Illuminate\Http\Request;
 
 class OrderDetailController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function orderManager()
     {
-        //
+        $orders = Order::orderBy('id', 'DESC')->get();
+
+        return view('admin.orders.order-manager', compact('orders'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function updateOrderStatus(Request $request, $id)
     {
-        //
+        $order = Order::findOrFail($id);
+        $order->status_order = $request->input('status_order');
+        $order->save();
+
+        return redirect()->back()->with('message', 'Cập nhật trạng thái đơn hàng thành công');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreOrderDetailRequest $request)
+    public function orderDetailManager($id)
     {
-        //
-    }
+        $data = OrderDetail::where('order_id', $id)->get();
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(OrderDetail $orderDetail)
-    {
-        //
-    }
+        $shipping = Shipping::where('order_id', $id)->first();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(OrderDetail $orderDetail)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateOrderDetailRequest $request, OrderDetail $orderDetail)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(OrderDetail $orderDetail)
-    {
-        //
+        return view('admin.orders.order-detail-manager', [
+            'data' => $data,
+            'shipping' => $shipping
+        ]);
     }
 }

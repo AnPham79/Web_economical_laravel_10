@@ -9,8 +9,12 @@ use App\Models\Shipping;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+
+use App\Mail\Bill;
+
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -100,6 +104,8 @@ class OrderController extends Controller
         $shipping->save();
         
         $delcart = Cart::where('user_id', Auth::user()->id)->delete();
+
+        // Mail::to(Auth::user()->email)->send(new Bill($orderDetail, $totalPrice));
 
         session()->forget([
             'id',

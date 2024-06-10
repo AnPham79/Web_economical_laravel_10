@@ -19,7 +19,7 @@
                             <div class="panel-heading">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <h2 class="fw-bold">{{ $title }}</h2>
+                                        <h2 class="fw-bold">Quản lí kích thước sản phẩm</h2>
                                     </div>
                                     <div class="col-md-6 float-end">
                                         <a href="{{ route('size.product-manager.create') }}" class="btn btn-success float-end mx-1">Thêm mới

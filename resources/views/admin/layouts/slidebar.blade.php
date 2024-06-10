@@ -40,7 +40,7 @@
             </li>
             
             <li class="nav-item">
-                <a class="nav-link text-white " href="">
+                <a class="nav-link text-white " href="{{ route('user-manager') }}">
 
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="fa-solid fa-user fs-5"></i>
@@ -51,7 +51,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link text-white " href="">
+                <a class="nav-link text-white " href="{{ route('order-manager') }}">
 
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="fa-solid fa-box fs-5"></i>
@@ -73,7 +73,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link text-white " href="">
+                <a class="nav-link text-white " href="{{ route('coupon-manager') }}">
 
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="fa-brands fa-salesforce fs-5"></i>

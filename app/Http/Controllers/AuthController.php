@@ -4,14 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 
-use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UserRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
+use App\Mail\Welcome;
+
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -33,13 +35,19 @@ class AuthController extends Controller
             return redirect()->back()->withErrors(['messages' => 'Email hoặc mật khẩu của bạn không đúng']);
         }
 
-        if (Auth::user()->role == 0) {
+        $user = Auth::user();
+        if ($user->status == 'is_lock') {
+            Auth::logout();
+            return redirect()->back()->withErrors(['messages' => 'Tài khoản của bạn đã bị khóa.']);
+        }
+
+        if ($user->role == 0) {
             return redirect()->route('product.product-manager');
         } else {
             return redirect()->route('index');
         }
-
     }
+
 
     public function handleRegister(StoreUserRequest $request)
     {
@@ -47,7 +55,12 @@ class AuthController extends Controller
         $data->fill($request->except('_token'));
         $data->password = Hash::make($request->password);
         $data->save();
-        
+
+        $email = $data->email;
+        $name = $data->name;
+
+        Mail::to($email)->send(new Welcome($name));
+
         return redirect()->route('login');
     }
 
@@ -87,5 +100,61 @@ class AuthController extends Controller
         request()->session()->regenerateToken();
 
         return redirect('/');
+    }
+
+    // -------------------------------------------------------------------------------
+
+    public function showForgotPasswordForm()
+    {
+        return view('auth.forgot-password');
+    }
+
+    public function processForgotPassword(Request $request)
+    {
+        $request->validate(['email' => 'required|email']);
+
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return redirect()->back()->withErrors(['email' => 'Email không tồn tại trong hệ thống.']);
+        }
+
+        $token = mt_rand(100000, 999999);
+        session(['reset_token' => $token, 'reset_email' => $user->email]);
+
+        Mail::raw("Mã xác nhận của bạn là: $token", function ($message) use ($user) {
+            $message->to($user->email)
+                    ->subject('Mã xác nhận đặt lại mật khẩu');
+        });
+
+        return redirect()->route('reset-password')->with('success', 'Một email chứa mã xác nhận đã được gửi đến địa chỉ email của bạn.');
+    }
+
+    public function showResetPasswordForm()
+    {
+        return view('auth.reset-password');
+    }
+
+    public function processResetPassword(Request $request)
+    {
+        $request->validate([
+            'token' => 'required',
+            'password' => 'required|confirmed'
+        ]);
+
+        $token = session('reset_token');
+        $email = session('reset_email');
+
+        if ($request->input('token') != $token) {
+            return redirect()->back()->withErrors(['token' => 'Mã xác nhận không chính xác.']);
+        }
+
+        $user = User::where('email', $email)->first();
+        $user->password = bcrypt($request->input('password'));
+        $user->save();
+
+        session()->forget(['reset_token', 'reset_email']);
+
+        return redirect()->route('login')->with('success', 'Mật khẩu đã được thay đổi thành công.');
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Shipping;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -42,6 +43,31 @@ class UserController extends Controller
         }
 
         return redirect()->back();
+    }
+
+    // ---------------------------------- admin ----------------------------------------
+    public function userManager()
+    {
+        $users = User::paginate(12);
+
+        return view('admin.users.user-manager', compact('users'));
+    }
+
+    public function changeStatusAccount($user_name)
+    {
+        $user = User::where('name', $user_name)->first();
+
+        if ($user) {
+            if ($user->status == 'is_active') {
+                $user->status = 'is_lock';
+            } else {
+                $user->status = 'is_active';
+            }
+            
+            $user->save();
+        }
+
+        return redirect()->back()->with('status', 'Cập nhật trạng thái tài khoản thành công');
     }
 
 }
