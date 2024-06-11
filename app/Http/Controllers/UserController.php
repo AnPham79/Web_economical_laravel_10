@@ -13,7 +13,7 @@ class UserController extends Controller
 {
     public function orderHistory()
     {
-        $data = Order::where('user_id', Auth::user()->id)->get();
+        $data = Order::where('user_id', Auth::user()->id)->orderBY('id', 'DESC')->get();
         return view('order-history', [
             'data' => $data
         ]);
@@ -31,9 +31,9 @@ class UserController extends Controller
         ]);
     }
 
-    public function cancelOrder($status)
+    public function cancelOrder($id)
     {
-        $order = Order::where('status_order', $status)->first();
+        $order = Order::where('id', $id)->first();
 
         if ($order) {
             $order->status_order = 'cancelled';

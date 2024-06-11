@@ -19,6 +19,7 @@ use App\Http\Controllers\CouponController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderDetailController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SearchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +43,8 @@ Route::get('/about', function() {
 Route::get('/contact', function() {
     return view('contact');
 })->name('contact');
+
+Route::get('/search', [SearchController::class, 'index'])->name('search');
 
 // ---------------------------------------------------------------- page product -------------------------------------------------------------
 
@@ -113,7 +116,7 @@ Route::middleware(['checkLogin'])->group(function () {
 
     Route::get('/order-detail/{id}', [UserController::class, 'orderDetail'])->name('order-detail');
 
-    Route::put('/cancel-order/{status}', [UserController::class, 'cancelOrder'])->name('cancel-order');
+    Route::post('/cancel-order/{id}', [UserController::class, 'cancelOrder'])->name('cancel-order');
 });
 
 // -----------------------------------------------------------------------------------------------------------------------------------

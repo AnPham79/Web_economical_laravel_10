@@ -172,6 +172,8 @@ return [
         App\Providers\CartCountProvider::class,
 
         App\Providers\TotalPriceProvider::class,
+
+        App\Providers\HeaderSearchProvider::class,
     ])->toArray(),
 
     /*

@@ -35,13 +35,13 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Người mua</th>
-                                        <th>Tiền tạm thời</th>
                                         <th>Mã giảm giá</th>
                                         <th>Tổng tiền</th>
                                         <th>Mã đơn hàng</th>
                                         <th>Thời gian mua</th>
                                         <th>Trạng thái đơn hàng</th>
                                         <th>Xem chi tiết</th>
+                                        <th>Cập nhật trạng thái</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -49,8 +49,13 @@
                                         <tr>
                                             <td>{{ $item->id }}</td>
                                             <td>{{ $item->user->name }}</td>
-                                            <td>{{ number_format($item->sub_total) }} VND</td>
-                                            <td>{{ $item->discount }}</td>
+                                            <td>
+                                                @if($item->discount)
+                                                    {{ $item->discount }}
+                                                @else
+                                                    <span class="text-danger"> Không dùng </span>
+                                                @endif
+                                            </td>
                                             <td>{{ number_format($item->total) }} VND</td>
                                             <td>{{ $item->order_code }}</td>
                                             <td>{{ $item->created_at->diffForHumans() }}</td>
@@ -79,9 +84,19 @@
                                                 @endswitch
                                             </td>
                                             <td>
-                                                <a href="{{ route('order-manager-detail', ['order_id' => $item->order_id]) }}">
+                                                <a href="{{ route('order-detail', ['id' => $item->id]) }}">
                                                     Chi tiết đơn hàng
                                                 </a>
+                                            </td>
+                                            <td>
+                                                @if($item->status_order == 'Placed')
+                                                    <form action="{{ route('cancel-order', ['id' => $item->id]) }}" method="POST">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-danger rounded-0">Hủy đơn</button>
+                                                    </form>
+                                                @else
+                                                    <button disabled class="btn btn-secondary rounded-0">Hủy đơn</button>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach

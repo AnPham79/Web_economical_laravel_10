@@ -78,6 +78,8 @@ class OrderController extends Controller
         $order->order_code = $orderCode;
         $order->save();
 
+        $orderDetails = [];
+
         foreach ($cart as $item) {
             $orderDetail = new OrderDetail();
             $orderDetail->order_id = $order->id;
@@ -96,6 +98,12 @@ class OrderController extends Controller
             $orderDetail->total = $totalPrice;
             
             $orderDetail->save();
+
+            $orderDetails[] = $orderDetail;
+
+            $product = $item->product;
+            $product->product_quantity -= $item->product_quantity;
+            $product->save();
         }
 
         $shipping = new Shipping();
@@ -103,9 +111,9 @@ class OrderController extends Controller
         $shipping->order_id = $order->id;
         $shipping->save();
         
-        $delcart = Cart::where('user_id', Auth::user()->id)->delete();
+        Cart::where('user_id', Auth::user()->id)->delete();
 
-        // Mail::to(Auth::user()->email)->send(new Bill($orderDetail, $totalPrice));
+        Mail::to(Auth::user()->email)->send(new Bill($order, $orderDetails, $totalPrice));
 
         session()->forget([
             'id',

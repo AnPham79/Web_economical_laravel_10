@@ -27,9 +27,9 @@
             </div>
 
             <ul class="nav col-12 col-md-auto mb-3 justify-content-center mb-md-0">
-                <form class="d-flex" role="search">
+                <form class="d-flex" role="search" method="GET" action="{{ route('search') }}">
                     <input class="form-control rounded-0 border border-secondary-subtle" type="search"
-                        style="font-size: 13px;" placeholder="Nhập tìm kiếm của bạn ..." aria-label="Search">
+                        style="font-size: 13px;" name="search" placeholder="Nhập tìm kiếm của bạn ..." aria-label="Search">
                     <button class="btn btn-dark rounded-0" type="submit" style="font-size: 14px;">Tìm</button>
                 </form>
             </ul>

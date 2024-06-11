@@ -114,42 +114,5 @@
                 </div>
             </div>
         </div>
-
-        @if ($product->order->status_order == 'Placed')
-            <div class="container">
-                <form action="{{ route('cancel-order', ['status' => $product->order->status_order]) }}" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <button class="btn btn-danger w-100 rounded-0">Hủy đơn</button>
-                </form>
-            </div>
-        @else
-            <p class="text-center {{ $product->order->status_order == 'Cancelled' ? 'text-danger' : 'text-success' }}">
-                @switch($product->order->status_order)
-                    @case('Confirmed')
-                        Đơn hàng của bạn đã xác nhận
-                    @break
-
-                    @case('Processing')
-                        Đơn hàng của bạn đang được xử lý
-                    @break
-
-                    @case('Shipped')
-                        Đơn hàng của bạn đã được giao hàng
-                    @break
-
-                    @case('Delivered')
-                        Đơn hàng của bạn đã được giao
-                    @break
-
-                    @case('Cancelled')
-                        Đơn hàng của bạn đã bị hủy
-                    @break
-
-                    @default
-                        Trạng thái đơn hàng: {{ $product->order->status_order }}
-                @endswitch
-            </p>
-        @endif
     </div>
 @endsection
