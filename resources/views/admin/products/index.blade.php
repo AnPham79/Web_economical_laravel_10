@@ -24,16 +24,22 @@
                                     <div class="col-md-6 float-end">
                                         <a href="{{ route('product.create-product') }}" class="btn btn-success float-end mx-1">Thêm mới
                                         </a>
-                                        <form action="" method="POST">
+                                        <form action="{{ route('export-csv-product') }}" method="POST">
                                             @csrf
                                             <button class="btn btn-success float-end mx-1">
                                                 Export CSV
                                             </button>
                                         </form>
-                                        <form action="" method="POST">
+                                        <form action="{{ route('export-excel-product') }}" method="POST">
                                             @csrf
                                             <button class="btn btn-success float-end mx-1">
                                                 Export Excel
+                                            </button>
+                                        </form>
+                                        <form action="{{ route('import-product-data-form') }}" method="POST">
+                                            @csrf
+                                            <button class="btn btn-success float-end mx-1">
+                                                Import Excel
                                             </button>
                                         </form>
                                     </div>

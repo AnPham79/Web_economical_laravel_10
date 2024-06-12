@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ProductExport;
 use App\Models\Product;
 use App\Http\Requests\StoreProductRequest;
+use App\Imports\ProductImport;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Category;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 use App\Models\Thumbnail;
 use Illuminate\Http\Request;
-
-use Carbon\Carbon;
+use Maatwebsite\Excel\Facades\Excel;
+use Export;
 
 class ProductController extends Controller
 {
@@ -135,5 +137,27 @@ class ProductController extends Controller
         session()->flash('message', 'Xóa sản phẩm thành công !!');
 
         return redirect()->route('product.product-manager');
+    }
+
+    public function exportExcel()
+    {
+        return Excel::download(new ProductExport, 'productList.xlsx');
+    }
+
+    public function exportCSV()
+    {
+        return Excel::download(new ProductExport, 'productList.csv');
+    }
+
+    public function importExcelForm()
+    {
+        return view('admin.products.import-data');
+    }
+
+    public function importExcel(Request $request)
+    {
+        Excel::import(new ProductImport, $request->file);
+
+        return redirect()->back()->with('message', 'Chúc mừng admin đã nhập dữ liệu thành công');
     }
 }

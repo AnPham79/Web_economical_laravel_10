@@ -62,7 +62,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link text-white " href="">
+                <a class="nav-link text-white " href="{{ route('chart-baoanstore') }}">
 
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="fa-solid fa-chart-simple fs-5"></i>
@@ -95,13 +95,13 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link text-white " href="">
+                <a class="nav-link text-white " href="{{ route('comment-manager') }}">
 
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="fa-solid fa-image fs-5"></i>
+                        <i class="fa-solid fa-comment fs-5"></i>
                     </div>
 
-                    <span class="nav-link-text ms-1">Quản lí banner</span>
+                    <span class="nav-link-text ms-1">Quản lí bình luận</span>
                 </a>
             </li>
 

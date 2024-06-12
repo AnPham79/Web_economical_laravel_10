@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use App\Models\Product;
 use App\Models\SizeProduct;
 
@@ -23,6 +24,10 @@ class HomeController extends Controller
     {
         $data = Product::where('product_slug_name', $slug)->with('thumbnails')->first();
 
+        $comments = Comment::where('product_id', $data->id)
+                   ->where('status', 'is_show')
+                   ->get();
+
         $more_products = Product::inRandomOrder()->limit(4)->get();
 
         $size = SizeProduct::all();
@@ -33,7 +38,8 @@ class HomeController extends Controller
             'data' => $data,
             'size' => $size,
             'more_products' => $more_products,
-            'thumbnails' => $thumbnails
+            'thumbnails' => $thumbnails,
+            'comments' => $comments
         ]);
     }
 }

@@ -90,7 +90,9 @@ class CartController extends Controller
     {
         $findProduct = Product::where('product_slug_name', $slug)->first();
 
-        $supperFind = Cart::where('product_id', $findProduct->id)->where('user_id', Auth::user()->id)->first();
+        $supperFind = Cart::where('product_id', $findProduct->id)
+        ->where('user_id', Auth::user()->id)
+        ->first();
 
         $supperFind->product_quantity -= 1;
 

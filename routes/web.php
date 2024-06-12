@@ -1,4 +1,5 @@
 <?php
+use Laravel\Socialite\Facades\Socialite;
 
 use Illuminate\Support\Facades\Route;
 
@@ -15,11 +16,15 @@ use App\Http\Controllers\SizeProductController;
 use App\Http\Controllers\CategoryController;
 
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\ChartController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderDetailController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SearchController;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -81,6 +86,56 @@ Route::post('/forgot-password', [AuthController::class, 'processForgotPassword']
 Route::get('/reset-password', [AuthController::class, 'showResetPasswordForm'])->name('reset-password');
 Route::post('/reset-password', [AuthController::class, 'processResetPassword']);
 
+Route::get('/Auth/google', function () {
+    return Socialite::driver('google')->redirect();
+})->name('google-auth');
+ 
+Route::get('/Auth/google/callback', function () {
+    $user = Socialite::driver('google')->user();
+
+    $existingUser = User::where('email', $user->email)->first();
+
+    if ($existingUser) {
+        Auth::login($existingUser);
+        return redirect()->route('index');
+    } else {
+        session(['register_data' => [
+            'name' => $user->name,
+            'email' => $user->email,
+            'avatar' => $user->avatar ?? null,
+        ]]);
+
+        return redirect()->route('register');
+    }
+});
+
+// ------------------------------ end ------------------------------------------
+
+// --------------------------đăng kí bằng git hub -----------------------------
+Route::get('/auth/github', function () {
+    return Socialite::driver('github')->redirect();
+})->name('github-auth');
+ 
+Route::get('/auth/github/callback', function () {
+    $user = Socialite::driver('github')->user();
+
+    $existingUser = User::where('email', $user->email)->first();
+
+    if ($existingUser) {
+        Auth::login($existingUser);
+        return redirect()->route('index');
+    } else {
+        session(['register_data' => [
+            'name' => $user->name,
+            'email' => $user->email,
+            'avatar' => $user->avatar ?? null,
+        ]]);
+        
+        return redirect()->route('register');
+    }
+});
+
+
 // ------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -108,6 +163,9 @@ Route::middleware(['checkLogin'])->group(function () {
         view('thank');
     })->name('thank');
 });
+
+// ------------------------------------------------- Bình luận -----------------------------------------
+Route::post('post-comment/{slug}', [CommentController::class, 'postComment'])->name('post-comment');
 
 
 // -------------------------------------------------- cài đặt và quản lí các thao tác của user --------------------------------------
@@ -182,6 +240,22 @@ Route::middleware(['AdminCheck'])->group(function () {
     Route::get('edit-coupon-manager/{id}', [CouponController::class, 'edit'])->name('edit-coupon-manager');
     Route::put('update-coupon-manager/{id}', [CouponController::class, 'update'])->name('update-coupon-manager');
     Route::delete('delete-coupon-manager/{id}', [CouponController::class, 'destroy'])->name('destroy-coupon-manager');
+
+    // ----------------------------------------- quản lí bình luận -----------------------------------------------------
+    Route::get('comment-manager', [CommentController::class, 'commentManager'])->name('comment-manager');
+    Route::post('change-status-comment/{id}', [CommentController::class, 'changeStatusComment'])->name('change-status-comment');
+
+    // ---------------------------------------- chart BAOANSTORE -------------------------------------------------------
+    Route::get('chart-baoanstore', [ChartController::class, 'chartBaoanstore'])->name('chart-baoanstore');
+
+    // -------------------------------------- xuất file sản phẩm ra exel và csv------------------------------------------------------------------
+    Route::post('export-excel-product', [ProductController::class, 'exportExcel'])->name('export-excel-product');
+
+    Route::post('export-csv-product', [ProductController::class, 'exportCSV'])->name('export-csv-product');
+
+    Route::post('import-product-data-form', [ProductController::class, 'importExcelForm'])->name('import-product-data-form');
+
+    Route::post('import-product-data', [ProductController::class, 'importExcel'])->name('import-product-data');
 });
 
 

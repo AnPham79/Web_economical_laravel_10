@@ -77,14 +77,14 @@
                     <div class="button-social">
                         <div class="row">
                             <div class="col-6">
-                                <a href="#">
+                                <a href="{{ route('github-auth') }}">
                                     <button class="btn btn-dark rounded-0 w-100">
                                         <i class="fa-brands fa-github"></i>
                                     </button>
                                 </a>
                             </div>
                             <div class="col-6">
-                                <a href="#">
+                                <a href="{{ route('google-auth') }}">
                                     <button class="btn-google btn btn-light border-danger rounded-0 w-100 text-danger">
                                         <i class="fa-brands fa-google"></i>
                                     </button>

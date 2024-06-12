@@ -25,6 +25,10 @@
                     <div class="panel panel-default">
                         <div class="panel-heading mt-5">
                             <h2 class="fw-bold">Lịch sử mua hàng</h2>
+                            <form action="" method="GET" class="form-inline my-5 d-flex">
+                                <input value="{{ $search ?? '' }}" type="text" name="order_code" class="form-control border border-secondary-subtle rounded-0" placeholder="Nhập mã đơn hàng">
+                                <button type="submit" class="btn btn-dark rounded-0 ml-2 px-4">Tìm</button>
+                            </form>                            
                         </div>
                         <div class="panel-body mt-4">
                             @if (Session::has('message'))

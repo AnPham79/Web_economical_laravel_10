@@ -11,13 +11,23 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    public function orderHistory()
+    public function orderHistory(Request $request)
     {
-        $data = Order::where('user_id', Auth::user()->id)->orderBY('id', 'DESC')->get();
+        $search = $request->input('order_code');
+
+        $query = Order::where('user_id', Auth::user()->id)->orderBy('id', 'DESC');
+        if ($search) {
+            $query->where('order_code', 'like', '%' . $search . '%');
+        }
+
+        $data = $query->get();
+
         return view('order-history', [
-            'data' => $data
+            'data' => $data,
+            'search' => $search,
         ]);
     }
+
 
     public function orderDetail($id)
     {
@@ -63,11 +73,10 @@ class UserController extends Controller
             } else {
                 $user->status = 'is_active';
             }
-            
+
             $user->save();
         }
 
         return redirect()->back()->with('status', 'Cập nhật trạng thái tài khoản thành công');
     }
-
 }

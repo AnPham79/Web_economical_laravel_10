@@ -1,6 +1,11 @@
 @extends('layouts.master')
 
 @section('content')
+    <style>
+        .fa-arrow-up {
+            transform: translateY(10px)
+        }
+    </style>
     <main>
         <div class="container my-5">
             <nav aria-label="breadcrumb">
@@ -268,6 +273,81 @@
             </div>
         </div>
 
+        <div class="container">
+            <hr>
+            <h5 class="bg-dark text-white py-4 px-4">Cảm nhận của khách hàng</h5>
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            @forelse ($comments as $comment)
+                <div class="row align-items-center border-top border-bottom py-3 my-3">
+                    <div class="col-lg-4 col-md-12 col-sm-12 d-flex avt-comment" style="height:50px; width:150px">
+                        @if($comment->user->avatar !== null)
+                            <img src="{{ $comment->user->avatar }}" class="rounded-circle overflow-hidden object-fit-cover me-3" alt="Avatar">
+                        @else
+                            <img src="{{ asset('img/me/antony.jpg') }}" class="rounded-circle w-100 overflow-hidden object-fit-cover me-3" alt="Avatar">
+                        @endif
+                        
+                        <span class="name-user fw-bold" style="width:200px">{{ $comment->user->name }}</span>
+                    </div>
+                    <div class="col-lg-8 col-md-10 col-sm-10">
+                        <div class="rate d-flex align-items-center">
+                            <x-rating-comment-component :rating="$comment->rating"/>
+                            <div class="date text-secondary ms-auto">
+                                <i>{{ $comment->created_at->diffForHumans() }}</i>
+                            </div>
+                        </div>
+                        <div class="comment">
+                            <p class="mb-0">
+                                {{ $comment->content }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            @empty
+                <p class="mt-4 text-secondary">Chưa có bình luận nào, bạn hãy là người đầu tiên đánh giá sản phẩm của chúng tôi.</p>
+            @endforelse
+            
+            @if(session()->has('message'))
+                <div class="alert alert-success">
+                    {{ session()->get('message') }}
+                </div>
+            @endif
+
+            @if (Auth::check())
+                <form action="{{ route('post-comment', ['slug' => $data->product_slug_name]) }}" method="POST" class="mb-5">
+                    @csrf
+                    @method('POST')
+                    <div class="mb-3">
+                        <p class="form-label fs-5">Hãy viết bình luận của bạn</p>
+                        <label for="rating">Đánh giá:</label>
+                            <select class="form-select form-control mt-1 border border-secondary-subtle w-25" id="rating" name="rating">
+                                <option disabled selected>-- Đánh giá --</option>
+                                <option value="5">5 sao</option>
+                                <option value="4">4 sao</option>
+                                <option value="3">3 sao</option>
+                                <option value="2">2 sao</option>
+                                <option value="1">1 sao</option>
+                            </select>
+                        </div>
+                        <input type="text" class="form-control border-dark" name="content"
+                            placeholder="Nêu cảm nhận của bạn ở đây" style="height: 100px;">
+                        <div class="mb-3 text-end mt-3">
+                            <button class="btn btn-dark rounded-0 text-white" type="submit">Bình luận</button>
+                        </div>
+                    </div>
+                </form>
+            @else
+                <p>Bạn chưa đăng nhập, hãy <a href="{{ route('login') }}">đăng nhập</a> để bình luận nhé</p>
+            @endif
+        </div>
+
         <div class="container mt-5">
             <div class="article">
                 <div class="section">
@@ -311,7 +391,7 @@
                         </div>
                     </div>
                     <div class="view-all-product d-flex justify-content-center mt-4">
-                        <a href="./product.html" class="text-decoration-none"><button class="btn btn-dark rounded-0">Xem
+                        <a href="{{ route('product-page') }}" class="text-decoration-none"><button class="btn btn-dark rounded-0">Xem
                                 thêm</button></a>
                     </div>
                 </div>

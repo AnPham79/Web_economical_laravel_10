@@ -12,8 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->dropColumn('total_price');
-            // $table->string('discount')->nullable()->change();
+            $table->string('discount')->nullable();
         });
     }
 

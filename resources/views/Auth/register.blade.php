@@ -37,18 +37,33 @@
                     <form role="form" method="POST" action="{{ route('handle-register') }}">
                         @csrf
                         <h1 class="bold text-center mb-5">Đăng kí</h1>
-                        <div class="form-group mt-3">
-                            <label for="name" class="label-control">Tên của bạn</label>
-                            <input type="text" name="name"
-                                class="form-control border border-secondary-subtle mt-1 rounded-0"
-                                placeholder="Nhập tên của bạn" value="{{ old('name') }}">
-                        </div>
-                        <div class="form-group mt-3">
-                            <label for="email" class="label-control">Địa chỉ email</label>
-                            <input type="email" name="email"
-                                class="form-control border border-secondary-subtle mt-1 rounded-0"
-                                placeholder="Nhập địa chỉ email của bạn" value="{{ old('email') }}">
-                        </div>
+                        @if(session()->has('register_data'))
+                            <div class="form-group mt-3">
+                                <label for="name" class="label-control">Tên của bạn</label>
+                                <input type="text" name="name"
+                                    class="form-control border border-secondary-subtle mt-1 rounded-0"
+                                    placeholder="Nhập tên của bạn" value="{{ session('register_data')['name'] ?? '' }}">
+                            </div>
+                            <div class="form-group mt-3">
+                                <label for="email" class="label-control">Địa chỉ email</label>
+                                <input type="email" name="email"
+                                    class="form-control border border-secondary-subtle mt-1 rounded-0"
+                                    placeholder="Nhập địa chỉ email của bạn" value="{{ session('register_data')['email'] ?? '' }}">
+                            </div>
+                        @else
+                            <div class="form-group mt-3">
+                                <label for="name" class="label-control">Tên của bạn</label>
+                                <input type="text" name="name"
+                                    class="form-control border border-secondary-subtle mt-1 rounded-0"
+                                    placeholder="Nhập tên của bạn" value="{{ old('name') }}">
+                            </div>
+                            <div class="form-group mt-3">
+                                <label for="email" class="label-control">Địa chỉ email</label>
+                                <input type="email" name="email"
+                                    class="form-control border border-secondary-subtle mt-1 rounded-0"
+                                    placeholder="Nhập địa chỉ email của bạn" value="{{ old('email') }}">
+                            </div>
+                        @endif
 
                         <div class="form-group mt-3 d-flex align-items-center">
                             <div class="form-check mr-3">
@@ -97,14 +112,14 @@
                     <div class="button-social">
                         <div class="row">
                             <div class="col-6">
-                                <a href="#">
+                                <a href="{{ route('github-auth') }}">
                                     <button class="btn btn-dark rounded-0 w-100">
                                         <i class="fa-brands fa-github"></i>
                                     </button>
                                 </a>
                             </div>
                             <div class="col-6">
-                                <a href="#">
+                                <a href="{{ route('google-auth') }}">
                                     <button class="btn-google btn btn-light border-danger rounded-0 w-100 text-danger">
                                         <i class="fa-brands fa-google"></i>
                                     </button>

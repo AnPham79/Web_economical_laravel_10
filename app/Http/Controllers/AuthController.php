@@ -28,7 +28,7 @@ class AuthController extends Controller
     }
 
     public function handleLogin(UserRequest $request)
-    {
+    {   
         $credentials = $request->only('email', 'password');
 
         if (!Auth::attempt($credentials)) {
@@ -60,6 +60,8 @@ class AuthController extends Controller
         $name = $data->name;
 
         Mail::to($email)->send(new Welcome($name));
+
+        session()->forget('register_data');
 
         return redirect()->route('login');
     }

@@ -51,6 +51,15 @@
                                 </h2>
                             </div>
                             <div class="col-md-12 col-sm-12">
+                                @if ($errors->any())
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                 @endif
                                 <form action="" method="GET">
                                     <div class="row mt-3">
                                         <div class="col-md-6">

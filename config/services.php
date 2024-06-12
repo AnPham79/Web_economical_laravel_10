@@ -31,4 +31,18 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    // gg
+    'google' => [
+        'client_id' => '436769244911-kh7c4gg4v0htjh4r17lcodktrbl0j38h.apps.googleusercontent.com',
+        'client_secret' => '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',
+        'redirect' => '/Auth/google/callback',
+    ],
+
+    // github
+    'github' => [
+        'client_id' => 'Ov23liTuePEEbDOe0lsk',
+        'client_secret' => '20d360b288188ebedd27c346bb24abfc25ca6249',
+        'redirect' => '/auth/github/callback',
+    ],
+
 ];

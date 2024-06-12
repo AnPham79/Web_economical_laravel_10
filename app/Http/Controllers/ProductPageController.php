@@ -6,13 +6,26 @@ use Illuminate\Http\Request;
 
 use App\Models\Product;
 use App\Models\Category;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class ProductPageController extends Controller
 {
 
     public function index(Request $request)
     {
+        $message = [
+            'min_regular_price.min'  => 'Giá thấp nhất của bạn có thể nhập là 0 VND',
+            'min_regular_price.numeric' => 'Giá thấp nhất bạn nhập phải là số',
+            'max_regular_price.min'  => 'Giá cao nhất của bạn phải lớn hơn giá nhỏ nhất',
+            'max_regular_price.numeric' => 'Giá cao nhất bạn nhập phải là số',
+        ];
+
+        $request->validate([
+            'search' => 'nullable|string',
+            'min_regular_price' => 'nullable|numeric|min:0',
+            'max_regular_price' => 'nullable|numeric|min:' . ($request->input('min_regular_price') ?? 0),
+        ], $message);
+
         $filter = $request->only([
             'search',
             'min_regular_price',
@@ -46,6 +59,19 @@ class ProductPageController extends Controller
 
     public function pageProductSale(Request $request)
     {
+        $message = [
+            'min_regular_price.min'  => 'Giá thấp nhất của bạn có thể nhập là 0 VND',
+            'min_regular_price.numeric' => 'Giá thấp nhất bạn nhập phải là số',
+            'max_regular_price.min'  => 'Giá cao nhất của bạn phải lớn hơn giá nhỏ nhất',
+            'max_regular_price.numeric' => 'Giá cao nhất bạn nhập phải là số',
+        ];
+
+        $request->validate([
+            'search' => 'nullable|string',
+            'min_regular_price' => 'nullable|numeric|min:0',
+            'max_regular_price' => 'nullable|numeric|min:' . ($request->input('min_regular_price') ?? 0),
+        ], $message);
+        
         $filter = $request->only([
             'search',
             'min_regular_price',
