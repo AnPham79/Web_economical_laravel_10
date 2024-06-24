@@ -24,6 +24,8 @@
                 <h2>Cảm ơn đã mua hàng tại của hàng của chúng tôi !!!</h2>
                 <p>Thông tin đơn hàng sẽ được gửi đến bạn sau ít phút.</p>
                 <a href="{{ route('index') }}" class="btn btn-dark">Về trang chủ</a>
+                <p class="mt-2">Hoặc</p>
+                <a href="{{ route('order-history') }}" class="btn btn-dark">Xem đơn</a>
                 <div class="mt-3">
                     <a href="{{ route('product-page') }}" class="text-decoration-none">Tiếp tục mua hàng</a>
                 </div>
