@@ -41,9 +41,15 @@ class Product extends Model
         return $query->when(!empty($filter['search']), function($query) use ($filter) {
             $query->where('product_name', 'like', '%' . $filter['search'] . '%');
         })->when(!empty($filter['min_regular_price']), function($query) use ($filter) {
-            $query->where('product_regular_price', '>=', $filter['min_regular_price']);
+            $query->where(function($query) use ($filter) {
+                $query->whereRaw('IF(product_percent_sale > 0, product_regular_price - (product_regular_price * product_percent_sale / 100), product_regular_price) >= ?', 
+                [$filter['min_regular_price']]);
+            });
         })->when(!empty($filter['max_regular_price']), function($query) use ($filter) {
-            $query->where('product_regular_price', '<=', $filter['max_regular_price']);
+            $query->where(function($query) use ($filter) {
+                $query->whereRaw('IF(product_percent_sale > 0, product_regular_price - (product_regular_price * product_percent_sale / 100), product_regular_price) <= ?', 
+                [$filter['max_regular_price']]);
+            });
         })->when(isset($filter['product_sale_status']) && $filter['product_sale_status'] === 'on_sale', function($query) {
             $query->where('product_percent_sale', '>', 0);
         })->when(isset($filter['product_sale_status']) && $filter['product_sale_status'] === 'none_sale', function($query) {
