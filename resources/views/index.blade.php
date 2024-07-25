@@ -76,7 +76,7 @@
                     <h2 class="fw-bold text-center fs-2 my-4 pt-5" style="margin-bottom: 0;">SẢN PHẨM MỚI</h2>
                     <div class="list-product">
                         <div class="row">
-                            @foreach ($products_new as $product)
+                            @forelse ($products_new as $product)
                                 <div class="col-lg-3 col-md-4">
                                     <div class="product">
                                         <div class="product-img">
@@ -112,13 +112,17 @@
                                         </div>
                                     </div>
                                 </div>
-                            @endforeach
+                            @empty
+                                <i class="text-center text-secondary">Chưa có sản phẩm mới nào trong {{ $currentDate }}</i>
+                            @endforelse
                         </div>
                     </div>
-                    <div class="view-all-product d-flex justify-content-center mt-4">
-                        <a href="{{ route('product-page') }}" class="text-decoration-none"><button class="btn btn-dark rounded-0">Xem tất
-                                cả</button></a>
-                    </div>
+                    @if($products_new->count() > 0)
+                        <div class="view-all-product d-flex justify-content-center mt-4">
+                            <a href="{{ route('product-page') }}" class="text-decoration-none"><button class="btn btn-dark rounded-0">Xem tất
+                                    cả</button></a>
+                        </div>
+                    @endif
                 </div>
             </div>
 
