@@ -65,12 +65,13 @@ class CartController extends Controller
     }
 
 
-    public function increaseQuantity($slug)
+    public function increaseQuantity($slug, $size)
     {
         $findProduct = Product::where('product_slug_name', $slug)->first();
 
         $findProductOfUser = Cart::where('product_id', $findProduct->id)
             ->where('user_id', Auth::user()->id)
+            ->where('size_id', $size)
             ->first();
 
         if ($findProductOfUser->product_quantity < $findProduct->product_quantity) {
@@ -86,12 +87,13 @@ class CartController extends Controller
         return redirect()->back();
     }
 
-    public function decreaseQuantity($slug)
+    public function decreaseQuantity($slug, $size)
     {
         $findProduct = Product::where('product_slug_name', $slug)->first();
 
         $supperFind = Cart::where('product_id', $findProduct->id)
         ->where('user_id', Auth::user()->id)
+        ->where('size_id', $size)
         ->first();
 
         $supperFind->product_quantity -= 1;
@@ -107,12 +109,13 @@ class CartController extends Controller
         return redirect()->back();
     }
 
-    public function deleteProductInCart($slug)
+    public function deleteProductInCart($slug, $size)
     {
-        $find = Product::where('product_slug_name', $slug)->first();
+        $product = Product::where('product_slug_name', $slug)->first();
 
         $findProductInCart = Cart::where('user_id', Auth::user()->id)
-            ->where('product_id', $find->id)
+            ->where('product_id', $product->id)
+            ->where('size_id', $size)
             ->first();
 
         $findProductInCart->delete();

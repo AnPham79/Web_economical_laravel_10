@@ -145,11 +145,11 @@ Route::middleware(['checkLogin'])->group(function () {
 
     Route::post('/add-to-cart/{slug}', [CartController::class, 'addToCart'])->name('add-to-cart');
 
-    Route::post('/increase-quantity-quantity/{slug}', [CartController::class, 'increaseQuantity'])->name('increase-quantity-product');
+    Route::post('/increase-quantity-quantity/{slug}/{size}', [CartController::class, 'increaseQuantity'])->name('increase-quantity-product');
 
-    Route::post('/decrease-quantity-quantity/{slug}', [CartController::class, 'decreaseQuantity'])->name('decrease-quantity-product');
+    Route::post('/decrease-quantity-quantity/{slug}/{size}', [CartController::class, 'decreaseQuantity'])->name('decrease-quantity-product');
 
-    Route::post('/delete-product-in-cart/{slug}', [CartController::class , 'deleteProductInCart'])->name('delete-product-in-cart');
+    Route::post('/delete-product-in-cart/{slug}/{size}', [CartController::class , 'deleteProductInCart'])->name('delete-product-in-cart');
 
     Route::get('/check-out', [OrderController::class, 'checkOut'])->name('check-out');
 

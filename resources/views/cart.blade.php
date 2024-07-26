@@ -58,12 +58,12 @@
 
 
                     <div class="in4-product-in_cart mb-3 mb-md-0 d-flex" style="transform: translateY(30%);">
-                        <form action="{{ route('decrease-quantity-product', ['slug' => $item->product->product_slug_name]) }}" method="POST" class="mx-1">
+                        <form action="{{ route('decrease-quantity-product', ['slug' => $item->product->product_slug_name, 'size' => $item->size_id]) }}" method="POST" class="mx-1">
                             @csrf
                             <button class="btn btn-dark rounded-0"><i class="fa-solid fa-minus"></i></button>
                         </form>
                         <span style="transform: translateY(7px)">{{ $item->product_quantity }}</span>
-                        <form action="{{ route('increase-quantity-product', ['slug' => $item->product->product_slug_name]) }}" method="POST" class="mx-1">
+                        <form action="{{ route('increase-quantity-product', ['slug' => $item->product->product_slug_name, 'size' => $item->size_id]) }}" method="POST" class="mx-1">
                             @csrf
                             <button class="btn btn-dark rounded-0"><i class="fa-solid fa-plus"></i></button>
                         </form>
@@ -74,7 +74,12 @@
                         </span>
                     </div>
                     <div class="delete-product-in_cart" style="transform: translateY(30%);">
-                        <form action="{{ route('delete-product-in-cart', ['slug' => $item->product->product_slug_name]) }}" method="POST">
+                        <form action="{{ route('delete-product-in-cart', 
+                            [
+                                'slug' => $item->product->product_slug_name, 
+                                'size' => $item->size_id
+                            ]) 
+                            }}" method="POST">
                             @csrf
                             <button class="btn btn-danger text-white"><i class="fa-solid fa-trash"></i></button>
                         </form>
