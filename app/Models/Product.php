@@ -72,4 +72,9 @@ class Product extends Model
         return $this->hasMany(comment::class);
     }
 
+    public function getRatingAttribute(): float
+    {
+        return $this->comments()->avg('rating') ?? 0;
+    }
+
 }

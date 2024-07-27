@@ -38,7 +38,7 @@
                         <img src="{{ asset('img/product') }}/{{ $item->product->product_image }}" style="height: 200px;" alt="">
                     </div>
                     <div class="in4-product-in_cart mb-3 mb-md-0" style="transform: translateY(30%);">
-                        <span><b>Tên sản phẩm:</b> {{ $item->product->product_name }}</span>
+                        <span><b>Tên sản phẩm:</b> <a href="{{ route('product-detail', ['slug' => $item->product->product_slug_name]) }}">{{ $item->product->product_name }}</a></span>
                         <p class="mb-0"><b>Thương hiệu:</b> BAOAN STORE</p>
                         <p class="mb-0"><b>size:</b> {{ $item->size->size }}</p>
                     </div>
