@@ -170,7 +170,7 @@
                                                 <div class="group d-flex justify-content-between">
                                                     <div class="view d-flex">
                                                         <i class="fa-solid fa-eye px-2" style="transform: translateY(5px);"></i>
-                                                        <p class="text-secondary-subtle">100</p>
+                                                        <p class="text-secondary-subtle">{{ $product->views }}</p>
                                                     </div>
                                                     <div class="comment d-flex">
                                                         <i class="fa-regular fa-comment px-2" style="transform: translateY(5px);"></i>

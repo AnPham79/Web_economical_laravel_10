@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\SizeProduct;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Redis;
 
 class HomeController extends Controller
 {
@@ -27,37 +28,29 @@ class HomeController extends Controller
 
     public function show($slug)
     {
-        $cacheKey = 'product_' . $slug;
-
-        $data = Cache::remember($cacheKey, 3600, function() use ($slug) {
+        $data = Cache::remember('product_' . $slug, 3600, function() use ($slug) {
             return Product::where('product_slug_name', $slug)
-                        ->with('thumbnails')
-                        ->firstOrFail();
+                ->with('thumbnails', 'comments')
+                ->firstOrFail();
         });
 
-        $viewCacheKey = 'product_view_' . $data->id . '_' . request()->ip();
+        $comments = Cache::remember('product_comments_' . $data->id, 3600, function() use ($data) {
+            return Comment::where('product_id', $data->id)
+                ->where('status', 'is_show')
+                ->get();
+        });
 
-        if (!Cache::has($viewCacheKey)) {
-            // Tăng lượt xem trong cơ sở dữ liệu
-            $data->increment('views');
+        $size = Cache::remember('size_', 3600, function() use ($data) {
+            return SizeProduct::all();
+        });
 
-            // Lưu vào cache với thời gian sống (TTL) là 1 giờ
-            Cache::put($viewCacheKey, true, 3600);
-        }
+        $more_products = Cache::remember('more_products', 3600, function() {
+            return Product::inRandomOrder()->limit(4)->get();
+        });
 
-        // Lấy các comment của sản phẩm
-        $comments = Comment::where('product_id', $data->id)
-                        ->where('status', 'is_show')
-                        ->get();
-
-        // Lấy các sản phẩm ngẫu nhiên để hiển thị thêm
-        $more_products = Product::inRandomOrder()->limit(4)->get();
-
-        // Lấy tất cả các size sản phẩm
-        $size = SizeProduct::all();
-
-        // Lấy các thumbnails của sản phẩm
         $thumbnails = $data->thumbnails;
+
+        $data->increment('views');
 
         return view('detail', [
             'data' => $data,
