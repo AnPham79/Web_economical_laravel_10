@@ -39,7 +39,9 @@ use Illuminate\Support\Facades\Auth;
 
 Route::get('/', [HomeController::class, 'index'])->name('index');
 
-Route::get('/product-detail/{slug}', [HomeController::class, 'show'])->name('product-detail');
+Route::get('/product-detail/{slug}', [HomeController::class, 'show'])
+        ->name('product-detail')
+        ->middleware('ThrottleViews');
 
 Route::get('/about', function() {
     return view('about');

@@ -105,13 +105,29 @@
                                                             <span>{{ number_format($product->product_percent_sale) }}%</span>
                                                         </div>
                                                     @endif
+                                                    <div class="rating d-flex justify-content-between mx-2 mt-2">
+                                                        <div class="group d-flex justify-content-between">
+                                                            <div class="view d-flex">
+                                                                <i class="fa-solid fa-eye px-2" style="transform: translateY(5px);"></i>
+                                                                <p class="text-secondary-subtle">{{ $product->views }}</p>
+                                                            </div>
+                                                            <div class="comment d-flex">
+                                                                <i class="fa-regular fa-comment px-2" style="transform: translateY(5px);"></i>
+                                                                <p class="text-secondary-subtle">{{ $product->comments_count }}</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="group d-flex justify-content-between">
+                                                            {{ $product->getRatingAttribute() }}
+                                                            <i class="fa-solid fa-star mx-2" style="transform: translateY(5px); color: yellow;"></i>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="product-name text-center py-2 fw-bold"
+                                                <div class="product-name text-center fw-bold"
                                                     style="font-size: 15px; color: gray;">
                                                     <a
                                                         href="{{ route('product-detail', ['slug' => $product->product_slug_name]) }}">{{ $product->product_name }}</a>
                                                 </div>
-                                                <div class="product-price text-center py-2 fw-bold">
+                                                <div class="product-price text-center fw-bold">
                                                     @if ($product->product_percent_sale > 0)
                                                         @php
                                                             $price_sale =

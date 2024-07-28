@@ -67,6 +67,11 @@ class Product extends Model
         return $this->hasMany(OrderDetail::class);
     }
 
+    public function scopeCountComments(Builder $query)
+    {
+        return $query->withCount('comments');
+    }
+
     public function comments(): HasMany
     {
         return $this->hasMany(comment::class);

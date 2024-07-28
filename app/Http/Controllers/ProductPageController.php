@@ -36,7 +36,7 @@ class ProductPageController extends Controller
         $categories = Category::all();
 
         return view('product-page', [
-            'products' => Product::filter($filter)->paginate(12),
+            'products' => Product::filter($filter)->CountComments()->paginate(12),
             'categories' => $categories,
         ]);
     }
@@ -80,18 +80,18 @@ class ProductPageController extends Controller
 
         $categories = Category::all();
 
-        $products = Product::where('product_percent_sale', '>', 0);
+        $products = Product::CountComments('product_percent_sale', '>', 0);
 
         if (isset($filter['search'])) {
-            $products->where('product_name', 'like', '%' . $filter['search'] . '%');
+            $products->CountComments('product_name', 'like', '%' . $filter['search'] . '%');
         }
 
         if (isset($filter['min_regular_price'])) {
-            $products->where('product_regular_price', '>=', $filter['min_regular_price']);
+            $products->CountComments('product_regular_price', '>=', $filter['min_regular_price']);
         }
 
         if (isset($filter['max_regular_price'])) {
-            $products->where('product_regular_price', '<=', $filter['max_regular_price']);
+            $products->CountComments('product_regular_price', '<=', $filter['max_regular_price']);
         }
 
         $filteredProducts = $products->get();
