@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 use App\Mail\Welcome;
-
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
@@ -59,7 +59,9 @@ class AuthController extends Controller
         $email = $data->email;
         $name = $data->name;
 
-        Mail::to($email)->send(new Welcome($name));
+        $when = Carbon::now()->addSeconds(30);
+
+        Mail::to($email)->later($when, new Welcome($name));
 
         session()->forget('register_data');
 

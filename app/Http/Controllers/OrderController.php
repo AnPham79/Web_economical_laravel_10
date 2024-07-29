@@ -113,7 +113,9 @@ class OrderController extends Controller
         
         Cart::where('user_id', Auth::user()->id)->delete();
 
-        Mail::to(Auth::user()->email)->send(new Bill($order, $orderDetails, $totalPrice));
+        $when = Carbon::now()->addSeconds(30);
+
+        Mail::to(Auth::user()->email)->later($when, new Bill($order, $orderDetails, $totalPrice));
 
         session()->forget([
             'id',
