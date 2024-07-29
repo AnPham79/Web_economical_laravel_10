@@ -13,7 +13,6 @@ use Illuminate\Support\Str;
 use App\Models\Thumbnail;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
-use Export;
 
 class ProductController extends Controller
 {

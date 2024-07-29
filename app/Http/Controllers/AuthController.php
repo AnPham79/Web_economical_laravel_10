@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserRegistered;
 use App\Models\User;
 
 use App\Http\Requests\StoreUserRequest;
@@ -61,7 +62,7 @@ class AuthController extends Controller
 
         $when = Carbon::now()->addSeconds(30);
 
-        Mail::to($email)->later($when, new Welcome($name));
+        event(new UserRegistered($data));
 
         session()->forget('register_data');
 
